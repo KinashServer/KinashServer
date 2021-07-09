@@ -1,6 +1,5 @@
-------------
-KinashServer; by Andriy332;
-Version: 1.3;
+-------------
+Kinash server by @andriy332
 -------------
 
 
