@@ -14,7 +14,6 @@ http.createServer(function(request, response){
 		response.write("<p>KinashServer/" + server_version);
 		response.write("</center>");
 		response.write("<script src='http://localhost:80/log_443_400_p_https.js'></script>");
-		response.write("<script src='http://localhost:80/443FixAnaltics.js'>");
     }
     else{
        		response.setHeader("Server", "KinashServer");
