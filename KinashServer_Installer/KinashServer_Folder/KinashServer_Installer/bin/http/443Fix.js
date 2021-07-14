@@ -1,5 +1,5 @@
 const http = require("http");
-const server_version = "???"
+const server_version = "Unknown"
 
 http.createServer(function(request, response){
      
