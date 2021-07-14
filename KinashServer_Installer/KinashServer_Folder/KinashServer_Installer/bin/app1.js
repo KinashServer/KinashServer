@@ -16,7 +16,7 @@ http.createServer(function(request, response){
     if(request.url === "/"){
            response.setHeader("Server", "KinashServer");
            response.statusCode = 200;
-           response.write('Index file')
+           response.write('<p>Index file</p>')
     }
     else if(request.url === "/old"){
  	   console.info('\x1b[33m User: ' + request.method + '  ' + request.url)
