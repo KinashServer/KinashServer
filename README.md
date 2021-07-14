@@ -1,5 +1,5 @@
 -------------
-Kinash server by @andriy332
+Kinash server by andriy332
 -------------
 
 
