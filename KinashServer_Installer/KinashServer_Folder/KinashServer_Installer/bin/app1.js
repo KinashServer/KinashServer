@@ -30,10 +30,10 @@ http.createServer(function(request, response){
         response.write("<p>You are redirected from /old to /new</p>");
     }
     else if(request.url == "/Forbidden"){
- 	    console.info('\x1b[31m User: ' + request.method + '  ' + request.url)
-  	    console.info('\x1b[31m Server: 403 Forbidden - ' + 'CustomRequestHeaders: Server: KinashServer')
+ 	 console.info('\x1b[31m User: ' + request.method + '  ' + request.url)
+  	console.info('\x1b[31m Server: 403 Forbidden - ' + 'CustomRequestHeaders: Server: KinashServer')
         response.setHeader("Server", "KinashServer");
-        response.statusCode = 403;
+       	    response.statusCode = 403;
 	    response.write("<center>");
 	    response.write("<h3>403 Forbidden </h3>");
 	    response.write("<p>KinashServer/" + server_version);
