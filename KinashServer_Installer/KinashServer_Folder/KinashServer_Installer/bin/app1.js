@@ -1,6 +1,5 @@
 const http = require("http");
 const server_version = "1.3"
-const msgbox_commandline = "temp3.bat"
 const exec = require('child_process').execFile;
 const startfile =function(){
    console.log("fun() start");
