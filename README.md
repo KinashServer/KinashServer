@@ -16,8 +16,8 @@ Hard-drive free space: 20 MB
 
 Installation
 -
-Download the KinashServer_Installer.zip
+1) Download the KinashServer_Installer.zip
 
-Extract it
+2) Extract it
 
-Run the installer.vbs file
+3) Run the installer.vbs file
