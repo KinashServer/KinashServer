@@ -19,8 +19,8 @@ http.createServer(function(request, response){
         response.write('Index')
     }
     else if(request.url === "/old"){
- 	    console.info('\x1b[33m User: ' + request.method + '  ' + request.url)
-  	    console.info('\x1b[33m Server: 302 TempRedirect - ' + 'CustomRequestHeaders: Server: KinashServer')
+ 	console.info('\x1b[33m User: ' + request.method + '  ' + request.url)
+  	console.info('\x1b[33m Server: 302 TempRedirect - ' + 'CustomRequestHeaders: Server: KinashServer')
         response.statusCode = 302;
         response.setHeader("Server", "KinashServer");
         response.setHeader("Location", "/new");
