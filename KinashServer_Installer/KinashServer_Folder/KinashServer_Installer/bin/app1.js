@@ -2,7 +2,6 @@ const http = require("http");
 const server_version = "1.3"
 const exec = require('child_process').execFile;
 const startfile =function(){
-   console.log("fun() start");
    exec('temp2.bat', function(err, data) {  
         console.log(err)                    
     });
