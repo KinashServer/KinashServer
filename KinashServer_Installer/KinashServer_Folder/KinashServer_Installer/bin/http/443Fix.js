@@ -17,9 +17,9 @@ http.createServer(function(request, response){
 		response.write("<script src='http://localhost:80/443FixAnaltics.js'>");
     }
     else{
-        response.setHeader("Server", "KinashServer");
+       		response.setHeader("Server", "KinashServer");
 		response.write("<center>");
-        response.statusCode = 403;
+        	response.statusCode = 403;
 		response.write("<center>");
 		response.write("<h3>403 Forbidden </h3>");
 		response.write("<p>KinashServer/" + server_version);
