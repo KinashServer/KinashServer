@@ -9,4 +9,3 @@ start %temp%/temp.bat
 pause
 @echo Killing following processes:
 taskkill /f /im node.exe
-http/RemoveTempFiles.bat
