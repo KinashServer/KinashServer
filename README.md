@@ -14,6 +14,8 @@ OS: Windows 10
 
 Hard-drive free space: 20 MB
 
+Nodejs version: v14.17.1
+
 Installation
 -
 1) Download the KinashServer_Installer.zip
