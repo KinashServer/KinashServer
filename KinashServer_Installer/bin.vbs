@@ -5,7 +5,7 @@ If intAnswer = vbYes Then
 
 Dim objShell
 Set objShell = WScript.CreateObject( "WScript.Shell" )
-objShell.Run("cmd.exe /k @echo off & start C:\Users\%username%\Documents\KinashServer &  start C:\Users\%username%\Documents\KinashServer\Start-KinashServer.bat & exit")
+objShell.Run("cmd.exe /k @echo off & start C:\Users\%username%\Documents\KinashServer &  start C:\Users\%username%\Documents\KinashServer\Server-NodeJs.cmd & exit")
 Set objShell = Nothing
 
 Else
