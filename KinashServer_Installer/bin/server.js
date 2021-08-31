@@ -3,14 +3,6 @@ const server_version = "1.3"
 const ip = "0.0.0.0"
 //WARNING: if you want to start server on localhost 
 //set ip to "0.0.0.0" NOT 172.0.0.1
-const exec = require('child_process').execFile;
-const startfile =function(){
-   exec('temp2.bat', function(err, data) {  
-	console.log('Warning: ')
-        console.log(err)                    
-    });
-}
-startfile();
 http.createServer(function(request, response){
     console.info('\x1b[32m User: ' + request.method + '  ' + request.url)
     console.info('\x1b[32m Server: 200 OK - ' + 'CustomRequestHeaders: Server: KinashServer')
