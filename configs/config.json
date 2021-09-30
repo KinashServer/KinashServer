@@ -1,5 +1,0 @@
-{
-	"host" : "localhost",
-	"port" : "80",
-    "blacklistedurls" : "/blacklistedurl"
-}
