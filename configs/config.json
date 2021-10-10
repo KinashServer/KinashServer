@@ -6,5 +6,5 @@
 	"authentication_username" : "default",
 	"authentication_password" : "default",
 	"authentication_realm" : "default",
-	"authentication_file" : "./public_html/authentication.html"
+	"authentication_file" : "./public_html/login.html"
 }
