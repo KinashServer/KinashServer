@@ -1,2 +1,2 @@
 SimpleHTTP-Server
-Changes in change.log 
+Changes in changelog.txt 
