@@ -1,7 +1,7 @@
 {
 	"host" : "localhost",
 	"port" : "80",
-   "blacklistedurls" : "/blacklistedurl",
+  "blacklistedurls" : "/blacklistedurl",
 	"authentication_url" : "/login",
 	"authentication_username" : "default",
 	"authentication_password" : "default",

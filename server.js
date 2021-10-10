@@ -6,17 +6,67 @@ const fs = require('fs');
 const folder = "./public_html/"
 const config = require('./configs/config.json');
 const log = new console.Console(fs.createWriteStream('./logs/requests.txt'));
-
 if (!fs.existsSync(folder)){
     fs.mkdirSync(folder, { recursive: true });
 }
 
+console.log('\x1b[0m\x1b[32mLines marked as green is informations')
+console.log('\x1b[0m\x1b[32mLines marked as yellow is warnings')
+console.log('\x1b[0m\x1b[32mLines marked as red is errors')
+
 const server = http.createServer((req, res) => {
+	
+	
+process.on('uncaughtException', function (err) {
+		res.statusCode = 500
+	res.write(`<html><head>
+    <title>Error 500</title>
+</head><body>
+<center>
+    <h1>500 Internal Server Error</h1>
+    <p>An error happend in your request.</p>
+</center>
+</body></html>`)
+console.error('\x1b[31mAn error handling in user request')
+console.warn('\x1b[33mServer not closing but it closed the request')
+console.warn('\x1b[33mThe request closed due to something went wrong')
+console.warn('\x1b[33mPlease report the but on our GitHub')
+console.warn('\x1b[33mPlease send this text to out Github')
+console.warn('\x1b[33mERROR:')
+console.warn('\x1b[33m' + err)
+console.log('\x1b[0m')
+
+log.error("An error handling in user request")
+log.warn("Server not closing but it closed the request")
+log.warn("The request closed due to something went wrong")
+log.warn("Please report the but on our GitHub")
+log.warn("Please send this text to out Github'")
+log.warn("ERROR:")
+log.warn(err)
+res.end()
+return
+});
+	
+	
+	
+ function senderror(){
+ log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "Error handling request! > 500 Internal Server Error")
+ console.error("\x1b[0m\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "Error handling request! > 500 Internal Server Error")
+	res.statusCode = 500
+	res.end(`<html><head>
+    <title>Error 500</title>
+</head><body>
+<center>
+    <h1>500 Internal Server Error</h1>
+    <p>An error happend in your request.</p>
+</center>
+</body></html>`)
+ }
  log.log("[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
- console.log("[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ console.log("\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  if(req.url == "/"){
-	 fs.open('./public_html/index.html', 'r', function(err, fileToRead){
-    if (!err){
+	fs.open('./public_html/index.html', 'r', function(err, fileToRead){
+	if (!err){
         fs.readFile(fileToRead, {encoding: 'utf-8'}, function(err,data){
             if (!err){
             res.write(data);
@@ -61,23 +111,18 @@ const server = http.createServer((req, res) => {
   if (login && password && login === auth.login && password === auth.password) {
 	fs.readFile(config.authentication_file, 'utf8', function (err,data) {
   if (err) {
-    return res.end(`<html><head>
-    <title>No authentication file.</title>
-</head><body>
-<center>
-    <h1>No authentication file.</h1>
-    <p>The is no ` + config.authentication_file + ` file please create it in the "/public_html/" folder</p>
-</center>
-</body></html>`)
+    senderror()
+		 log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " + "authentication file \x1b[0m")
+ log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " + "authentication file \x1b[0m")
+	 console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " + "authentication file \x1b[0m")
+ return console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " + "authentication file \x1b[0m")
   }
-  res.end(`<html><head>
-    <title>No authentication file.</title>
-</head><body>
-<center>
-    <h1>No authentication file.</h1>
-    <p>The is no ` + authentication.file + ` file please create it in the "/public_html/" folder</p>
-</center>
-</body></html>`)
+
+	senderror()
+	 log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " +  "authentication file \x1b[0m")
+ log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " +  "authentication file \x1b[0m")
+	 console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " +  "authentication file \x1b[0m")
+ console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " +  "authentication file \x1b[0m")
 });
 	return;
   }
@@ -113,7 +158,7 @@ const server = http.createServer((req, res) => {
     <title>Error 414</title>
 </head><body>
 <center>
-    <h1>418 URI Too Long</h1>
+    <h1>414 URI Too Long</h1>
     <p>The request url "/..." is too long to progress by the server.</p>
 </center>
 </body></html>`)
@@ -156,7 +201,7 @@ const server = http.createServer((req, res) => {
 </head><body>
 <center>
     <h1>404 Not Found</h1>
-    <p>The requested url` + req.url + `</p>
+    <p>The requested url` + req.url + ` not found</p>
 </center>
 </body></html>`)
             }
@@ -168,7 +213,7 @@ const server = http.createServer((req, res) => {
 </head><body>
 <center>
     <h1>404 Not Found</h1>
-    <p>The requested url` + req.url + `</p>
+    <p>The requested url` + req.url + ` not found</p>
 </center>
 </body></html>`)
 	 }
@@ -179,5 +224,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(config.port, config.host, () => {
-  console.log(`Server running at http://` + config.host + ":" + config.port + "/" );
+  console.log(`\x1b[0m\x1b[32mServer running at http://` + config.host + ":" + config.port + "/" );
 });

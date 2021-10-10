@@ -1,0 +1,6 @@
+Changes in this version:
+ * Added a colors for lines in console
+ * If something went wrong this server not crashes, returns a "500 internal server error" error
+ * If authentication file doesn't exits but user trying to login, server returns a "500 internal server error" 
+ * Fixed a bug with "404 Not Found " error
+ * Created a "login.html" file
