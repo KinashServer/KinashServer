@@ -66,35 +66,22 @@ return
 });
  }
  else if(req.url == config.authentication_url){
-	// -----------------------------------------------------------------------
-  // authentication middleware
-
   const auth = {login: config.authentication_username, password: config.authentication_password} // change this
-
-  // parse login and password from headers
   const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
   const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
-
-  // Verify login and password are set and correct
   if (login && password && login === auth.login && password === auth.password) {
 	fs.readFile(config.authentication_file, 'utf8', function (err,data) {
   if (err) {
-    senderror()
+	  	 res.statusCode = 500
+	  	 res.end('Error: No authentication file found')
 		 log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " + "authentication file \x1b[0m")
- log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " + "authentication file \x1b[0m")
-	 console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " + "authentication file \x1b[0m")
- return console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " + "authentication file \x1b[0m")
   }
-
-	senderror()
+	 res.statusCode = 500
+	 res.end('Error: No authentication file found')
 	 log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " +  "authentication file \x1b[0m")
- log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " +  "authentication file \x1b[0m")
-	 console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " +  "authentication file \x1b[0m")
- console.error("\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "How to fix: Create the " +  "authentication file \x1b[0m")
 });
 	return;
   }
-  // Access denied...
   res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"') // change this
   res.statusCode = 401
   res.end(`<html><head>
@@ -104,9 +91,7 @@ return
     <h1>401 Authentication required</h1>
     <p>You don't have authentication to view the page<p>
 </center>
-</body></html>`) // custom message
-
-  // -----------------------------------------------------------------------
+</body></html>`)
 
  }
  else if(req.url == "/%%" || req.url == "/%"){
