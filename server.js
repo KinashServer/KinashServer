@@ -4,6 +4,7 @@ const fs = require('fs');
 const folder = "./public_html/"
 const config = require('./configs/config.json');
 const log = new console.Console(fs.createWriteStream('./logs/requests.txt'));
+const mime = require('mime-types')
 if (!fs.existsSync(folder)){
     fs.mkdirSync(folder, { recursive: true });
 }
@@ -11,6 +12,9 @@ if (!fs.existsSync(folder)){
 
 const server = http.createServer((req, res) => {
 	
+	
+var contenttype = mime.contentType(req.url)
+res.setHeader('Content-Type', contenttype)
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
