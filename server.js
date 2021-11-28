@@ -56,27 +56,11 @@ return
             res.write(data);
             res.end();
             }else{
-                	res.end(`<html><head>
-    <title>No index file.</title>
-</head><body>
-<center>
-    <h1>No index file.</h1>
-    <p>The is no index.html file please create it in the "/public_html/" folder</p>
-	<p>Also you can create a 404.html at "/public_html/" folder </p>
-</center>
-</body></html>`)
+                res.end(`Error: No index file found! Please create a new one`)
             }
         });
     }else{
-                      	res.end(`<html><head>
-    <title>No index file.</title>
-</head><body>
-<center>
-    <h1>No index file.</h1>
-    <p>The is no index.html file please create it in the "/public_html/" folder</p>
-	<p>Also you can create a 404.html at "/public_html/" folder </p>
-</center>
-</body></html>`)
+                res.end(`Error: No index file found! Please create a new one`)
         
     }
 });
