@@ -46,19 +46,6 @@ return
 	
 	
 	
- function senderror(){
- log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "Error handling request! > 500 Internal Server Error")
- console.error("\x1b[0m\x1b[31m[Error]" + "[" + req.socket.remoteAddress + "]" + "Error handling request! > 500 Internal Server Error")
-	res.statusCode = 500
-	res.end(`<html><head>
-    <title>Error 500</title>
-</head><body>
-<center>
-    <h1>500 Internal Server Error</h1>
-    <p>An error happend in your request.</p>
-</center>
-</body></html>`)
- }
  log.log("[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  console.log("\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  if(req.url == "/"){
