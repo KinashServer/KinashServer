@@ -81,14 +81,15 @@ return
 </body></html>`)
 
  }
- else if(req.url == "/%%" || req.url == "/%"){
+ else if(req.url == "/%"){
 		res.statusCode = 400
 	res.end(`<html><head>
     <title>Error 400</title>
 </head><body>
 <center>
     <h1>400 Bad Request</h1>
-    <p>The request is invalid.</p>
+    <p>The request is invalid.</p> <br>
+    <p>Reason: The URL is invalid</p>
 </center>
 </body></html>`)
  }
