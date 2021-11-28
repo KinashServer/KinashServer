@@ -35,8 +35,8 @@ return
 	
 	
 	
- log.log("[INFO] " + "[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
- console.log("[INFO] " + "\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ log.log(" [INFO] " + "[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ console.log(" [INFO] " + "\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  if(req.url == "/"){
 	fs.open('./public_html/index.html', 'r', function(err, fileToRead){
 	if (!err){
@@ -63,9 +63,11 @@ return
   if (err) {
 	  	 res.statusCode = 500
 	  	 res.end('Error: No authentication file found')
+	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error')
   }
-	 res.statusCode = 500
-	 res.end('Error: No authentication file found')
+	 res.statusCode = 200
+	 res.end(data)
+	console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
 });
 	return;
   }
@@ -79,7 +81,7 @@ return
     <p>You don't have authentication to view the page<p>
 </center>
 </body></html>`)
-
+console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' failed the authentication')
  }
  else if(req.url.includes == "/%"){
 	res.writeHead(400, {'Content-Type': 'text/html'});
