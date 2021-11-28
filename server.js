@@ -55,7 +55,7 @@ return
 });
  }
  else if(req.url == config.authentication_url){
-  const auth = {login: config.authentication_username, password: config.authentication_password} // change this
+  const auth = {login: config.authentication_username, password: config.authentication_password}
   const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
   const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
   if (login && password && login === auth.login && password === auth.password) {
@@ -63,15 +63,13 @@ return
   if (err) {
 	  	 res.statusCode = 500
 	  	 res.end('Error: No authentication file found')
-		 log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " + "authentication file \x1b[0m")
   }
 	 res.statusCode = 500
 	 res.end('Error: No authentication file found')
-	 log.error("[Error]" + "[" + req.socket.remoteAddress + "]" + "There is no " +  "authentication file \x1b[0m")
 });
 	return;
   }
-  res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"') // change this
+  res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
   res.writeHead(401, {'Content-Type': 'text/html'});
   res.end(`<html><head>
     <title>Error 401</title>
