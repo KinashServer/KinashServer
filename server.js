@@ -24,21 +24,21 @@ process.on('uncaughtException', function (err) {
     <p>An error happend in your request.</p>
 </center>
 </body></html>`)
-console.error('\x1b[31mAn error handling in user request')
-console.warn('\x1b[33mServer not closing but it closed the request')
-console.warn('\x1b[33mThe request closed due to something went wrong')
-console.warn('\x1b[33mPlease report the but on our GitHub')
-console.warn('\x1b[33mPlease send this text to out Github')
-console.warn('\x1b[33mERROR:')
+console.error('\x1b[31m [ERROR] An error handling in user request')
+console.warn('\x1b[33m [WARN] Server not closing but it closed the request')
+console.warn('\x1b[33m [WARN] The request closed due to something went wrong')
+console.warn('\x1b[33m [WARN] Please report the but on our GitHub')
+console.warn('\x1b[33m [WARN] Please send this text to out Github')
+console.warn('\x1b[33m [WARN] ERROR:')
 console.warn('\x1b[33m' + err)
 console.log('\x1b[0m')
 
-log.error("An error handling in user request")
-log.warn("Server not closing but it closed the request")
-log.warn("The request closed due to something went wrong")
-log.warn("Please report the but on our GitHub")
-log.warn("Please send this text to out Github'")
-log.warn("ERROR:")
+log.error("[ERROR] An error handling in user request")
+log.warn("[WARN] Server not closing but it closed the request")
+log.warn("[WARN] The request closed due to something went wrong")
+log.warn("[WARN] Please report the but on our GitHub")
+log.warn("[WARN] Please send this text to out Github'")
+log.warn("[WARN] ERROR:")
 log.warn(err)
 res.end()
 return
@@ -46,8 +46,8 @@ return
 	
 	
 	
- log.log("[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
- console.log("\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ log.log("[INFO] " + "[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ console.log("[INFO] " + "\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  if(req.url == "/"){
 	fs.open('./public_html/index.html', 'r', function(err, fileToRead){
 	if (!err){
