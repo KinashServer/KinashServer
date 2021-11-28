@@ -15,15 +15,8 @@ const server = http.createServer((req, res) => {
 	
 	
 process.on('uncaughtException', function (err) {
-		res.statusCode = 500
-	res.write(`<html><head>
-    <title>Error 500</title>
-</head><body>
-<center>
-    <h1>500 Internal Server Error</h1>
-    <p>An error happend in your request.</p>
-</center>
-</body></html>`)
+	res.statusCode = 500
+	res.write(`<html><head><title>Error 500</title></head><body><center><h1>500 Internal Server Error</h1><p>An error happend in your request.</p></center></body></html>`)
 console.error('\x1b[31m [ERROR] An error handling in user request')
 console.warn('\x1b[33m [WARN] Server not closing but it closed the request')
 console.warn('\x1b[33m [WARN] The request closed due to something went wrong')
