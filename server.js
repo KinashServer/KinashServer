@@ -68,7 +68,7 @@ return
 	return;
   }
   res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"') // change this
-  res.statusCode = 401
+  res.writeHead(401, {'Content-Type': 'text/html'});
   res.end(`<html><head>
     <title>Error 401</title>
 </head><body>
@@ -80,7 +80,7 @@ return
 
  }
  else if(req.url.includes == "/%"){
-		res.statusCode = 400
+	res.writeHead(400, {'Content-Type': 'text/html'});
 	res.end(`<html><head>
     <title>Error 400</title>
 </head><body>
@@ -92,7 +92,7 @@ return
 </body></html>`)
  }
  else if(req.url.length > 500){
-		res.statusCode = 414
+	res.writeHead(414, {'Content-Type': 'text/html'});
 	res.end(`<html><head>
     <title>Error 414</title>
 </head><body>
@@ -103,7 +103,7 @@ return
 </body></html>`)
  }
    else if(req.url == config.blacklistedurls){
-		res.statusCode = 403
+	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(`<html><head>
     <title>Error 403</title>
 </head><body>
@@ -114,7 +114,7 @@ return
 </body></html>`)
  }
  else if(req.url == "/login.html"){
-	res.statusCode = 403
+	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(`<html><head>
     <title>Error 403</title>
 </head><body>
