@@ -79,7 +79,7 @@ return
 </body></html>`)
 
  }
- else if(req.url == "/%"){
+ else if(req.url.includes == "/%"){
 		res.statusCode = 400
 	res.end(`<html><head>
     <title>Error 400</title>
