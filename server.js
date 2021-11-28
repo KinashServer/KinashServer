@@ -18,14 +18,13 @@ process.on('uncaughtException', function (err) {
 	res.statusCode = 500
 	res.write(`<html><head><title>Error 500</title></head><body><center><h1>500 Internal Server Error</h1><p>An error happend in your request.</p></center></body></html>`)
 console.error('\x1b[31m [ERROR] An error handling in user request')
-console.warn('\x1b[33m [WARN] Please send this text to out Github')
+console.warn('\x1b[33m [WARN] Please report this bug to our github')
 console.warn('\x1b[33m [WARN] ERROR:')
 console.warn('\x1b[33m' + err)
 console.log('\x1b[0m')
 
 log.error("[ERROR] An error handling in user request")
-log.warn("[WARN] The request closed due to something went wrong")
-log.warn("[WARN] Please report the but on our GitHub")
+log.warn('[WARN] Please report this bug to our github')
 log.warn("[WARN] ERROR:")
 log.warn(err)
 res.end()
