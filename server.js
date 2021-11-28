@@ -127,6 +127,17 @@ return
 </center>
 </body></html>`)
  }
+ else if(req.url == "/login.html"){
+	res.statusCode = 403
+	res.end(`<html><head>
+    <title>Error 403</title>
+</head><body>
+<center>
+    <h1>403 Forbidden</h1>
+    <p>You don't have permission to use or view the page</p>
+</center>
+</body></html>`)
+ }
  else{
 	fs.open('./public_html/' + req.url, 'r', function(err, fileToRead){
     if (!err){
