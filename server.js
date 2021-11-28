@@ -105,7 +105,7 @@ return
 </center>
 </body></html>`)
  }
- else if(req.url.length > 100){
+ else if(req.url.length > 500){
 		res.statusCode = 414
 	res.end(`<html><head>
     <title>Error 414</title>
