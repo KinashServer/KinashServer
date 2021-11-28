@@ -10,9 +10,6 @@ if (!fs.existsSync(folder)){
     fs.mkdirSync(folder, { recursive: true });
 }
 
-console.log('\x1b[0m\x1b[32mLines marked as green is informations')
-console.log('\x1b[0m\x1b[32mLines marked as yellow is warnings')
-console.log('\x1b[0m\x1b[32mLines marked as red is errors')
 
 const server = http.createServer((req, res) => {
 	
