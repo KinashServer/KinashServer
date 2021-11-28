@@ -1,3 +1,6 @@
-SimpleHTTP-Server
-
-Changes in changelog.txt 
+<h1>KinashServer</h1>
+A simple node js http server [BETA]
+<h2>Download</h2>
+<a href="https://github.com/andriy332/KinashServer/releases/">Click here to download</a>
+<h2>Bugs</h2>
+<a href="https://github.com/andriy332/KinashServer/issues">Click here to report a bug</a>
