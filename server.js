@@ -144,16 +144,28 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
                 res.end('404 Not Found')
             }
         });
+    else{
+	fs.open('./public_html/' + req.url, 'r', function(err, fileToRead){
+    if (!err){
+        fs.readFile(fileToRead, {encoding: 'utf-8'}, function(err,data){
+            if (!err){
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(data);
+            res.end();
+            }else{
+                res.end('404 Not Found')
+            }
+        });
     }else{
 		fs.open('./public_html/404.html', 'r', function(err, fileToRead){
 		if (!err){
 			fs.readFile(fileToRead, {encoding: 'utf-8'}, function(err,data){
             if (!err){
-				res.writeHead(404, {'Content-Type': 'text/html'});
+				res.writeHead(200, {'Content-Type': 'text/html'});
 				res.write(data);
 				res.end();
             }else{
-				res.statusCode = 404
+				res.writeHead(404, {'Content-Type': 'text/html'});
                 res.end(`<html><head>
     <title>Error 404</title>
 </head><body>
@@ -165,7 +177,7 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
             }
         });
 	 }else{
-		res.statusCode = 404
+		res.writeHead(404, {'Content-Type': 'text/html'});
         res.end(`<html><head>
     <title>Error 404</title>
 </head><body>
