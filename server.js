@@ -64,13 +64,14 @@ return
   if (login && password && login === auth.login && password === auth.password) {
 	fs.readFile(config.authentication_file, 'utf8', function (err,data) {
   if (err) {
-	  	 res.statusCode = 500
-	  	 res.end('Error: No authentication file found')
+	  res.statusCode = 500
+	  res.end('Error: No authentication file found')
 	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error')
   }
+	 res.writeHead(400, {'Content-Type': 'text/html'});
 	 res.statusCode = 200
 	 res.end(data)
-	console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
+	 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
 });
 	return;
   }
@@ -84,7 +85,7 @@ return
     <p>You don't have authentication to view the page<p>
 </center>
 </body></html>`)
-console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' failed the authentication')
+console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
  }
  else if(req.url.includes == "/%"){
 	res.writeHead(400, {'Content-Type': 'text/html'});
