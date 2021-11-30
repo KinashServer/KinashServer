@@ -99,14 +99,14 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 </center>
 </body></html>`)
  }
- else if(req.url.length > 500){
+ else if(req.url.length > config.maxurl){
 	res.writeHead(414, {'Content-Type': 'text/html'});
 	res.end(`<html><head>
     <title>Error 414</title>
 </head><body>
 <center>
     <h1>414 URI Too Long</h1>
-    <p>The request url "/..." is too long to progress by the server.</p>
+    <p>The request url "/..." is too long to progress by the server (max url lenght is ` + config.maxurl + `).</p>
 </center>
 </body></html>`)
  }
