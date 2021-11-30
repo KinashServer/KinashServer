@@ -1,0 +1,21 @@
+Removed '
+console.log('\x1b[0m\x1b[32mLines marked as green is informations')
+console.log('\x1b[0m\x1b[32mLines marked as yellow is warnings')
+console.log('\x1b[0m\x1b[32mLines marked as red is errors')
+' lines
+Update of login.html
+Removed senderror() function
+Updated console design
+Removed unused comments 
+Updated authentication system + Patches
+Removed unused host, port
+Added content-type header
+Added authentication logs
+Changed the start message
+Fixed a" ERR_INVALID_RESPONSE" bug
+Updated config.json
+Updated debug mode
+Renamed server.cmd to debug.cmd
+Added error log
+Added nosslsupport.js
+Updated index.js
