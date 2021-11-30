@@ -19,7 +19,7 @@ const server = http.createServer((req, res) => {
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
-	res.write(config.error500page)
+	res.end(config.error500page)
 console.error('\x1b[31m [ERROR] An error handling in user request')
 console.warn('\x1b[33m [WARN] Please report this bug to our github')
 console.warn('\x1b[33m [WARN] ERROR:')
@@ -30,7 +30,6 @@ log.error("[ERROR] An error handling in user request")
 log.warn('[WARN] Please report this bug to our github')
 log.warn("[WARN] ERROR:")
 log.warn(err)
-res.end()
 return
 });
 	
