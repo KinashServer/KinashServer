@@ -178,5 +178,5 @@ console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' failed the a
 });
 
 server.listen(config.port, config.host, () => {
-  console.log(`\x1b[0m\x1b[32mServer running at http://` + config.host + ":" + config.port + "/" );
+  console.log(`\x1b[0m\x1b[32m[INFO] Server running at http://` + config.host + ":" + config.port + "/" );
 });
