@@ -65,12 +65,11 @@ return
   if (login && password && login === auth.login && password === auth.password) {
 	fs.readFile(config.authentication_file, 'utf8', function (err,data) {
   if (err) {
-	  res.statusCode = 500
+	  res.writeHead(500, {'Content-Type': 'text/html'});
 	  res.end('Error: No authentication file found')
 	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error \x1b[0m\x1b[32m')
   }
-	 res.writeHead(400, {'Content-Type': 'text/html'});
-	 res.statusCode = 200
+	 res.writeHead(200, {'Content-Type': 'text/html'});
 	 res.end(data)
 	 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
 });
