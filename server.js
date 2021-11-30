@@ -3,9 +3,8 @@ const http = require('http');
 const fs = require('fs');
 const folder = "./public_html/"
 const config = require('./configs/config.json');
-const log = new console.Console(fs.createWriteStream('./logs/' + date + '.txt'));
+const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'));
 var mime = require('mime');
-var date = new Date();
 
 if (!fs.existsSync(folder)){
     fs.mkdirSync(folder, { recursive: true });
