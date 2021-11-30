@@ -4,17 +4,20 @@ const fs = require('fs');
 const folder = "./public_html/"
 const config = require('./configs/config.json');
 const log = new console.Console(fs.createWriteStream('./logs/requests.txt'));
-const mime = require('mime-types')
+var mime = require('mime');
+
 if (!fs.existsSync(folder)){
     fs.mkdirSync(folder, { recursive: true });
 }
 
 
+
 const server = http.createServer((req, res) => {
 	
-	
-var contenttype = mime.contentType(req.url)
-res.setHeader('Content-Type', contenttype)
+
+
+
+function err404(){ res.writeHead(404, {'Content-Type': 'text/html'}); res.end(`<html><head><title>Error 404</title></head><body><center><h1>404 Not Found</h1><p>This page was not found on this server</p></center></body></html>`) }
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
@@ -110,7 +113,7 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 </center>
 </body></html>`)
  }
-   else if(req.url == config.blacklistedurls){
+ else if(req.url == config.blacklistedurls){
 	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(`<html><head>
     <title>Error 403</title>
@@ -133,8 +136,23 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 </body></html>`)
  }
  else{
- };
-}
+	try {	
+		fs.readFile('./public_html' + req.url, 'utf8' , (err, data) => {
+		if (err) {
+			res.statusCode = 404
+			res.end(`<html><head><title>Error 404</title></head><body><center><h1>404 Not Found</h1><p>This file was not found at this server</p></center></body></html>`)
+			return
+		}
+		console.log(mime.getType('/public_html' + req.url))
+		res.end(data)
+})
+	} catch (err) {
+		res.statusCode = 500
+		res.write(`<html><head><title>Error 500</title></head><body><center><h1>500 Internal Server Error</h1><p>An error happend in your request.</p></center></body></html>`)
+	    console.error('\x1b[31m [ERROR] An error handling this user request')
+		console.error('\x1b[31m [ERROR] try { fail (148 line)')
+	}
+};
 });
 
 server.listen(config.port, config.host, () => {
