@@ -66,12 +66,12 @@ return
   if (err) {
 	  res.statusCode = 500
 	  res.end('Error: No authentication file found')
-	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error')
+	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error \x1b[0m\x1b[32m')
   }
 	 res.writeHead(400, {'Content-Type': 'text/html'});
 	 res.statusCode = 200
 	 res.end(data)
-	 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
+	 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
 });
 	return;
   }
