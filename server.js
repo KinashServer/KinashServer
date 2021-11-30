@@ -19,7 +19,7 @@ const server = http.createServer((req, res) => {
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
-	res.write(`<html><head><title>Error 500</title></head><body><center><h1>500 Internal Server Error</h1><p>An error happend in your request.</p></center></body></html>`)
+	res.write(config.error500page)
 console.error('\x1b[31m [ERROR] An error handling in user request')
 console.warn('\x1b[33m [WARN] Please report this bug to our github')
 console.warn('\x1b[33m [WARN] ERROR:')
@@ -37,7 +37,7 @@ return
 	
 	
  log.log("[INFO] " + "[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
- console.log("[INFO] " + "\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ console.log("[INFO] " + "\x1b[0m\x1b[32m [" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  if(req.url == "/"){
 	fs.open('./public_html/index.html', 'r', function(err, fileToRead){
 	if (!err){
@@ -48,12 +48,12 @@ return
             res.end();
             }else{
                 res.writeHead(404, {'Content-Type': 'text/html'});
-                res.end(`Error: No index file found! Please create a new one`)
+                res.end(config.errornoindexpage)
             }
         });
     }else{
 	    	res.writeHead(404, {'Content-Type': 'text/html'});
-                res.end(`Error: No index file found! Please create a new one`)
+                res.end(config.errornoindexpage)
         
     }
 });
@@ -66,7 +66,7 @@ return
 	fs.readFile(config.authentication_file, 'utf8', function (err,data) {
   if (err) {
 	  res.writeHead(500, {'Content-Type': 'text/html'});
-	  res.end('Error: No authentication file found')
+	  res.end(config.error500noauthpage)
 	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error \x1b[0m\x1b[32m')
   }
 	 res.writeHead(200, {'Content-Type': 'text/html'});
@@ -77,67 +77,31 @@ return
   }
   res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
   res.writeHead(401, {'Content-Type': 'text/html'});
-  res.end(`<html><head>
-    <title>Error 401</title>
-</head><body>
-<center>
-    <h1>401 Authentication required</h1>
-    <p>You don't have authentication to view the page<p>
-</center>
-</body></html>`)
+  res.end(config.error401page)
 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
  }
  else if(req.url.includes == "/%"){
 	res.writeHead(400, {'Content-Type': 'text/html'});
-	res.end(`<html><head>
-    <title>Error 400</title>
-</head><body>
-<center>
-    <h1>400 Bad Request</h1>
-    <p>The request is invalid.</p> <br>
-    <p>Reason: The URL is invalid</p>
-</center>
-</body></html>`)
+	res.end(config.error400page)
  }
  else if(req.url.length > config.maxurl){
 	res.writeHead(414, {'Content-Type': 'text/html'});
-	res.end(`<html><head>
-    <title>Error 414</title>
-</head><body>
-<center>
-    <h1>414 URI Too Long</h1>
-    <p>The request url "/..." is too long to progress by the server (max url lenght is ` + config.maxurl + `).</p>
-</center>
-</body></html>`)
+	res.end(config.error414page)
  }
  else if(req.url == config.blacklistedurls){
 	res.writeHead(403, {'Content-Type': 'text/html'});
-	res.end(`<html><head>
-    <title>Error 403</title>
-</head><body>
-<center>
-    <h1>403 Forbidden</h1>
-    <p>You don't have permission to use or view the page</p>
-</center>
-</body></html>`)
+	res.end(config.error403page)
  }
  else if(req.url == "/login.html"){
 	res.writeHead(403, {'Content-Type': 'text/html'});
-	res.end(`<html><head>
-    <title>Error 403</title>
-</head><body>
-<center>
-    <h1>403 Forbidden</h1>
-    <p>You don't have permission to use or view the page</p>
-</center>
-</body></html>`)
+	res.end(config.error403page)
  }
  else{
 	try {	
 		fs.readFile('./public_html' + req.url, 'utf8' , (err, data) => {
 		if (err) {
 			res.statusCode = 404
-			res.end(`<html><head><title>Error 404</title></head><body><center><h1>404 Not Found</h1><p>This file was not found at this server</p></center></body></html>`)
+			res.end(config.error404page)
 			return
 		}
 		console.log(mime.getType('/public_html' + req.url))
@@ -145,8 +109,8 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 })
 	} catch (err) {
 		res.statusCode = 500
-		res.write(`<html><head><title>Error 500</title></head><body><center><h1>500 Internal Server Error</h1><p>An error happend in your request.</p></center></body></html>`)
-	    console.error('\x1b[31m [ERROR] An error handling this user request')
+		res.write(config.error500page)
+	        console.error('\x1b[31m [ERROR] An error handling this user request')
 		console.error('\x1b[31m [ERROR] try { fail (148 line)')
 	}
 };
