@@ -167,7 +167,7 @@ console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' failed the a
 </head><body>
 <center>
     <h1>404 Not Found</h1>
-    <p>The requested url ` + req.url + ` not found</p>
+    <p>The requested url ` + req.url + ` was not found</p>
 </center>
 </body></html>`)
 	 }
@@ -178,5 +178,5 @@ console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' failed the a
 });
 
 server.listen(config.port, config.host, () => {
-  console.log(`\x1b[0m\x1b[32m[INFO] Server running at http://` + config.host + ":" + config.port + "/" );
+  console.log(`\x1b[0m\x1b[32m[INFO] Server started at http://` + config.host + ":" + config.port + "/" );
 });
