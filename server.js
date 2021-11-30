@@ -104,7 +104,6 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 			res.end(config.error404page)
 			return
 		}
-		console.log(mime.getType('/public_html' + req.url))
 		res.end(data)
 })
 	} catch (err) {
