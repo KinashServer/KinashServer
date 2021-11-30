@@ -35,8 +35,8 @@ return
 	
 	
 	
- log.log(" [INFO] " + "[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
- console.log(" [INFO] " + "\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ log.log("[INFO] " + "[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
+ console.log("[INFO] " + "\x1b[0m\x1b[32m" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  if(req.url == "/"){
 	fs.open('./public_html/index.html', 'r', function(err, fileToRead){
 	if (!err){
