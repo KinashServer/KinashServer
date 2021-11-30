@@ -6,5 +6,7 @@
 	"authentication_username" : "default",
 	"authentication_password" : "default",
 	"authentication_realm" : "default",
-	"authentication_file" : "./public_html/login.html"
+	"authentication_file" : "./public_html/login.html",
+	"maxurl": "500",
+	"maxurl_info": "//DO NOT CHANGE THIS// Use only numbers in maxurl to prevent server crash"
 }
