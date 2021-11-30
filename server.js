@@ -45,10 +45,12 @@ return
             res.write(data);
             res.end();
             }else{
+                res.writeHead(404, {'Content-Type': 'text/html'});
                 res.end(`Error: No index file found! Please create a new one`)
             }
         });
     }else{
+	    	res.writeHead(404, {'Content-Type': 'text/html'});
                 res.end(`Error: No index file found! Please create a new one`)
         
     }
