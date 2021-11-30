@@ -16,8 +16,6 @@ const server = http.createServer((req, res) => {
 	
 
 
-
-function err404(){ res.writeHead(404, {'Content-Type': 'text/html'}); res.end(`<html><head><title>Error 404</title></head><body><center><h1>404 Not Found</h1><p>This page was not found on this server</p></center></body></html>`) }
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
