@@ -5,7 +5,7 @@ const folder = "./public_html/"
 const config = require('./configs/config.json');
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'));
 const errorlog = new console.Console(fs.createWriteStream('./logs/error-log.txt'));
-var mime = require('mime');
+const mime = require('mime');
 
 if (!fs.existsSync(folder)){
     fs.mkdirSync(folder, { recursive: true });
