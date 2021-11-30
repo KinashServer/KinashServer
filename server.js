@@ -4,6 +4,7 @@ const fs = require('fs');
 const folder = "./public_html/"
 const config = require('./configs/config.json');
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'));
+const errorlog = new console.Console(fs.createWriteStream('./logs/error-log.txt'));
 var mime = require('mime');
 
 if (!fs.existsSync(folder)){
@@ -26,10 +27,10 @@ console.warn('\x1b[33m [WARN] ERROR:')
 console.warn('\x1b[33m' + err)
 console.log('\x1b[0m')
 
-log.error("[ERROR] An error handling in user request")
-log.warn('[WARN] Please report this bug to our github')
-log.warn("[WARN] ERROR:")
-log.warn(err)
+errorlog.error("[ERROR] An error handling in user request")
+errorlog.warn('[WARN] Please report this bug to our github')
+errorlog.warn("[WARN] ERROR:")
+errorlog.warn(err)
 return
 });
 	
