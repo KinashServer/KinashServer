@@ -96,6 +96,10 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(config.error403page)
  }
+else if(req.url == "/login.html/"){
+	res.writeHead(403, {'Content-Type': 'text/html'});
+	res.end(config.error403page)
+ }
  else{
 	try {	
 		fs.readFile('./public_html' + req.url, 'utf8' , (err, data) => {
