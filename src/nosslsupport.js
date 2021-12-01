@@ -1,10 +1,6 @@
 const http = require('http');
 const config = require('../configs/config.json');
-var page = `<html><head>
-    <title>Error 500 - No SSL Support</title>
-</head><body>
-    <p>SSL not supported</p>
-</body></html>`
+var page = config.error500nosslsupported
 
 
 const requestListener = function (req, res) {
