@@ -68,18 +68,18 @@ return
   if (err) {
 	  res.writeHead(500, {'Content-Type': 'text/html'});
 	  res.end(config.error500noauthpage)
-	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error \x1b[0m\x1b[32m')
+	  console.warn('\x1b[33m [WARNING] User ' + req.socket.remoteAddress + ' passed the authentication with error \x1b[0m\x1b[32m')
   }
 	 res.writeHead(200, {'Content-Type': 'text/html'});
 	 res.end(data)
-	 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
+	 console.warn('\x1b[33m[WARNING] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
 });
 	return;
   }
   res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
   res.writeHead(401, {'Content-Type': 'text/html'});
   res.end(config.error401page)
-console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
+console.warn('\x1b[33m[WARNING] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
  }
  else if(req.url.includes == "/%"){
 	res.writeHead(400, {'Content-Type': 'text/html'});
