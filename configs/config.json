@@ -17,5 +17,5 @@
 	"error414page": "<html><head><title>Error 414</title></head><body><center><h1>414 URI Too Long</h1><p>The request url '/...' is too long to progress by the server</p></center></body></html>",
 	"error403page": "<html><head><title>Error 403</title></head><body><center><h1>403 Forbidden</h1><p>You don't have permission to use or view the page</p></center></body></html>",
 	"error404page": "<html><head><title>Error 404</title></head><body><center><h1>404 Not Found</h1><p>This file was not found at this server</p></center></body></html>",
-	"error500nosslsupported": "<html><head><title>Error 500</title></head><body><center><h1>500 No SSL Supported</h1><p>We are sorry, but we not support SSL</p></center></body></html>"
+	"error500nosslsupported": "<html><head><title>Error 500</title></head><body><center><h1>500 No HTTPS Supported</h1><p>We are sorry, but we not support HTTPS</p></center></body></html>"
 }
