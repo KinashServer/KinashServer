@@ -1,5 +1,5 @@
 <h1>KinashServer</h1>
-A simple node js http server [BETA]
+A simple node js http server
 <h2>Download</h2>
 <a href="https://github.com/andriy332/KinashServer/releases/">Click here to download</a>
 <h2>Bugs</h2>
