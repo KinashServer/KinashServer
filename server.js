@@ -22,16 +22,15 @@ const server = http.createServer((req, res) => {
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
 	res.end(config.error500page)
-console.error('\x1b[31m [ERROR] An error handling in user request')
-console.warn('\x1b[33m [WARN] Please report this bug to our github')
-console.warn('\x1b[33m [WARN] ERROR:')
-console.warn('\x1b[33m' + err)
-console.log('\x1b[0m')
-
-errorlog.error("[ERROR] An error handling in user request")
-errorlog.warn('[WARN] Please report this bug to our github')
-errorlog.warn("[WARN] ERROR:")
-errorlog.warn(err)
+	console.error('\x1b[31m [ERROR] An error handling in user request')
+	console.warn('\x1b[33m [WARN] Please report this bug to our github')
+	console.warn('\x1b[33m [WARN] ERROR:')
+	console.warn('\x1b[33m' + err)
+	console.log('\x1b[0m')
+	errorlog.error("[ERROR] An error handling in user request")
+	errorlog.warn('[WARN] Please report this bug to our github')
+	errorlog.warn("[WARN] ERROR:")
+	errorlog.warn(err)
 return
 });
 	
@@ -93,11 +92,7 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(config.error403page)
  }
- else if(req.url == "/login.html"){
-	res.writeHead(403, {'Content-Type': 'text/html'});
-	res.end(config.error403page)
- }
-else if(req.url == "/login.html/"){
+ else if(req.url.indexOf('/login.html') >= 0)){
 	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(config.error403page)
  }
