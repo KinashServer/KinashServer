@@ -34,7 +34,7 @@ function readfile(){
 		console.error('\x1b[31m [ERROR] try { fail (148 line)')
 	}
 };
-}
+
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
