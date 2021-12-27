@@ -8,7 +8,7 @@
 	"authentication_realm" : "default",
 	"authentication_file" : "./public_html/login.html",
 	"maxurl": "500",
-	"maxurl_info": "//DO NOT CHANGE THIS// Use only numbers in maxurl to prevent server crash",
+	"maxurl_tip_do_not_change": "Pro Tip: Use only numbers in maxurl to prevent server crash",
 	"error500page": "<html><head><title>Error 500</title></head><body><center><h1>500 Internal Server Error</h1><p>An error happend in your request.</p></center></body></html>",
 	"errornoindexpage": "Error: No index file found! Please create a new one",
 	"error500noauthpage": "Error: No authentication file found",
