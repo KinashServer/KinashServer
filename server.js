@@ -30,8 +30,7 @@ function readfile(){
 	} catch (err) {
 		res.statusCode = 500
 		res.write(config.error500page)
-	        console.error('\x1b[31m [ERROR] An error handling this user request')
-		console.error('\x1b[31m [ERROR] try { fail (148 line)')
+		throw new KinashServerError("A unknown error happend in user request! Please report this");
 	}
 };
 
