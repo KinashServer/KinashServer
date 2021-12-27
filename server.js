@@ -95,6 +95,17 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(config.error403page)
  }
+ else if(req.url == "/robots.txt"){
+	if(config.disallowcrawlers == "true"){
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.write('User-agent: *')
+		res.write('Disallow: /')
+		res.end('Disallow: *')
+	}
+	else{
+		
+	}
+ }
 else if(req.url == "/login.html/"){
 	res.writeHead(403, {'Content-Type': 'text/html'});
 	res.end(config.error403page)
