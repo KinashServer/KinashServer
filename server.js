@@ -120,7 +120,7 @@ console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to l
 		res.end('Disallow: *')
 	}
 	else{
-		
+		readfile()
 	}
  }
 else if(req.url == "/login.html/"){
