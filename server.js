@@ -17,7 +17,24 @@ if (!fs.existsSync(folder)){
 const server = http.createServer((req, res) => {
 	
 
-
+function readfile(){
+	try {	
+		fs.readFile('./public_html' + req.url, 'utf8' , (err, data) => {
+		if (err) {
+			res.statusCode = 404
+			res.end(config.error404page)
+			return
+		}
+		res.end(data)
+})
+	} catch (err) {
+		res.statusCode = 500
+		res.write(config.error500page)
+	        console.error('\x1b[31m [ERROR] An error handling this user request')
+		console.error('\x1b[31m [ERROR] try { fail (148 line)')
+	}
+};
+}
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
@@ -111,22 +128,8 @@ else if(req.url == "/login.html/"){
 	res.end(config.error403page)
  }
  else{
-	try {	
-		fs.readFile('./public_html' + req.url, 'utf8' , (err, data) => {
-		if (err) {
-			res.statusCode = 404
-			res.end(config.error404page)
-			return
-		}
-		res.end(data)
-})
-	} catch (err) {
-		res.statusCode = 500
-		res.write(config.error500page)
-	        console.error('\x1b[31m [ERROR] An error handling this user request')
-		console.error('\x1b[31m [ERROR] try { fail (148 line)')
-	}
-};
+ 	readfile()
+ }
 });
 
 server.listen(config.port, config.host, () => {
