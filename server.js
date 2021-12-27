@@ -68,7 +68,7 @@ return
   if (err) {
 	  res.writeHead(500, {'Content-Type': 'text/html'});
 	  res.end(config.error500noauthpage)
-	  console.warn('\x1b[33m [WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error \x1b[0m\x1b[32m')
+	  console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with error \x1b[0m\x1b[32m')
   }
 	 res.writeHead(200, {'Content-Type': 'text/html'});
 	 res.end(data)
