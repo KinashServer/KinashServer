@@ -1,0 +1,13 @@
+{
+  "name": "KinashServer",
+  "devDependencies": {
+    "http": "*"
+    "fs": "*"
+    "mime": "*"
+    "standard": "*"
+  },
+  "scripts": {
+    "test": "standard && node server.js",
+    "start": "node server.js"
+  }
+}
