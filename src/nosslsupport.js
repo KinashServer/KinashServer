@@ -16,4 +16,4 @@ const server = http.createServer(requestListener);
 
 server.listen(443, config.host, () => {
   console.log(`\x1b[0m\x1b[32m[INFO] Http error listener started at http://` + config.host + ":" + '443' + "/" );
-});
+})
