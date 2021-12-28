@@ -1,7 +1,6 @@
 const http = require('http');
-
 const fs = require('fs');
-const folder = "./public_html/"
+const folder = "./public_html/";
 const config = require('./configs/config.json');
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'));
 const errorlog = new console.Console(fs.createWriteStream('./logs/error-log.txt'));
@@ -15,7 +14,8 @@ if (!fs.existsSync(folder)){
 
 
 const server = http.createServer((req, res) => {
-	
+res.setHeader("Content-type",mime.getType(req.url))	
+
 
 function readfile(){
 	try {	
