@@ -14,8 +14,11 @@ if (!fs.existsSync(folder)){
 
 
 const server = http.createServer((req, res) => {
+	
+	
+	
+console.log(mime.getType(req.url))
 res.setHeader("Content-type",mime.getType(req.url))	
-
 
 function readfile(){
 	try {	
