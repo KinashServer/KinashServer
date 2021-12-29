@@ -11,13 +11,8 @@ if (!fs.existsSync(folder)){
     fs.mkdirSync(folder, { recursive: true });
 }
 
-
-
 const server = http.createServer((req, res) => {
-	
-	
-	
-console.log(mime.getType(req.url))
+
 res.setHeader("Content-type",mime.getType(req.url))	
 
 function readfile(){
@@ -36,7 +31,6 @@ function readfile(){
 		throw new KinashServerError("A unknown error happend in user request! Please report this");
 	}
 };
-
 	
 process.on('uncaughtException', function (err) {
 	res.statusCode = 500
@@ -51,9 +45,7 @@ process.on('uncaughtException', function (err) {
 	errorlog.warn(err)
 return
 });
-	
-	
-	
+		
  log.log("[INFO] " + "[" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  console.log("[INFO] " + "\x1b[0m\x1b[32m [" + req.socket.remoteAddress + "] "+ Date() + " " + req.method + " " + req.url)
  if(req.url == "/"){
