@@ -88,7 +88,7 @@ const server = http.createServer((req, res) => {
   } else if (req.url.includes === '/%') {
     res.writeHead(400, { 'Content-Type': 'text/html' })
     res.end(config.error400page)
-  } else if (req.url.length > config.maxurl) {
+  } else if (req.url.length > config.max_url_length) {
     res.writeHead(414, { 'Content-Type': 'text/html' })
     res.end(config.error414page)
   } else if (req.url === config.blacklistedurls) {
