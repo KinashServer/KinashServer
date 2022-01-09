@@ -85,19 +85,19 @@ const server = http.createServer((req, res) => {
     res.writeHead(401, { 'Content-Type': 'text/html' })
     res.end(config.error401page)
     console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
-  } else if (req.url.includes == '/%') {
+  } else if (req.url.includes === '/%') {
     res.writeHead(400, { 'Content-Type': 'text/html' })
     res.end(config.error400page)
   } else if (req.url.length > config.maxurl) {
     res.writeHead(414, { 'Content-Type': 'text/html' })
     res.end(config.error414page)
-  } else if (req.url == config.blacklistedurls) {
+  } else if (req.url === config.blacklistedurls) {
     res.writeHead(403, { 'Content-Type': 'text/html' })
     res.end(config.error403page)
-  } else if (req.url == '/login.html') {
+  } else if (req.url === '/login.html') {
     res.writeHead(403, { 'Content-Type': 'text/html' })
     res.end(config.error403page)
-  } else if (req.url == '/robots.txt') {
+  } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers == 'true') {
       res.writeHead(200, { 'Content-Type': 'text/plain' })
       res.write('User-agent: *')
@@ -106,7 +106,7 @@ const server = http.createServer((req, res) => {
     } else {
       readfile()
     }
-  } else if (req.url == '/login.html/') {
+  } else if (req.url === '/login.html/') {
     res.writeHead(403, { 'Content-Type': 'text/html' })
     res.end(config.error403page)
   } else {
