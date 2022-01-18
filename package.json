@@ -1,7 +1,7 @@
 {
   "name": "KinashServer",
   "description": "A simple http server with some basic config",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "scripts": {
     "test": "standard && node server.js",
     "start": "node server.js"
