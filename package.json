@@ -1,0 +1,19 @@
+{
+  "name": "KinashServer",
+  "description": "A simple http server with some basic config",
+  "version": "1.4.0",
+  "scripts": {
+    "test": "standard && node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andriy332/KinashServer.git"
+  },
+  "keywords": ["http","server","http-server"],
+  "author": "andriy332",
+  "bugs": {
+    "url": "https://github.com/andriy332/KinashServer/issues"
+  },
+  "homepage": "https://github.com/andriy332/KinashServer/"
+}
