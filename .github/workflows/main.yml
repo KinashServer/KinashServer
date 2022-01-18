@@ -4,5 +4,5 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: gh repo clone andriy332/KinashServer
+      - run: git repo clone andriy332/KinashServer
       - run: npm test
