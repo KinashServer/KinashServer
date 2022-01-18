@@ -5,5 +5,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: git clone https://github.com/andriy332/KinashServer.git
-      - run: ls
+      - run: cd KinashServer
       - run: npm test
