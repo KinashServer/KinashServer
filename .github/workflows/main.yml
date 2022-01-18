@@ -4,5 +4,8 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - run: git clone https://github.com/andriy332/KinashServer.git
+      - run: cd KinashServer
+      - run: cd KinashServer
       - run: ls
       - run: npm test
