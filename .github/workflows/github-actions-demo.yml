@@ -1,0 +1,7 @@
+name: main
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm test
