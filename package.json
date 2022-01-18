@@ -6,6 +6,11 @@
     "test": "standard && node server.js",
     "start": "node server.js"
   },
+  "dependencies": {
+    "http": ">0.0.0"
+    "fs": ">0.0.0"
+    "mime": ">2.5.0"
+  }
   "repository": {
     "type": "git",
     "url": "https://github.com/andriy332/KinashServer.git"
