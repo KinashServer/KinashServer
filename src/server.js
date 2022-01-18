@@ -1,3 +1,4 @@
+/* KinashServer 1.4.2 */
 const http = require('http')
 const fs = require('fs')
 const folder = '../public_html/'
