@@ -1,4 +1,4 @@
-/* 1.4.4 code style fix */
+/*1.4.4 code style fix */
 const http = require('http')
 const fs = require('fs')
 const folder = '../public_html/'
@@ -72,7 +72,7 @@ const server = http.createServer((req, res) => {
         }
 	 res.writeHead(200, { 'Content-Type': 'text/html' })
 	 res.end(data)
-	 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
+         console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
       })
       return
     }
@@ -93,7 +93,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(403, { 'Content-Type': 'text/html' })
     res.end(config.error403page)
   } else if (req.url === '/robots.txt') {
-    if (config.disallowcrawlers == 'true') {
+    if (config.disallowcrawlers === 'true') {
       res.writeHead(200, { 'Content-Type': 'text/plain' })
       res.write('User-agent: *')
       res.write('Disallow: /')
@@ -105,7 +105,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(403, { 'Content-Type': 'text/html' })
     res.end(config.error403page)
   } else {
- 	readfile()
+    readfile()
   }
 })
 server.listen(config.port, config.host, () => {
