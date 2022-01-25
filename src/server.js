@@ -9,21 +9,21 @@ const mime = require('mime')
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
 }
-function returnError(err,message) {
-  res.writeHead(err, { 'Content-Type': 'text/html' })
-  if(err == "400") { res.write(error400page) }
-  if(err == "401") { res.write(error401page) }
-  if(err == "403") { res.write(error403page) }
-  if(err == "404") { res.write(error404page) }
-  if(err == "414") { res.write(error414page) }
-  if(err == "500") { res.write(error504page) }
-  res.write(`<h3>Error </h3>`)
-  res.write(`<p>Error code: ${err}</p>`)
-  res.write(`<o>${message}</o>`)
-}
 
 const server = http.createServer((req, res) => {
-  res.setHeader('Content-type', mime.getType(req.url))
+  function returnError (err, message) {
+    res.writeHead(err, { 'Content-Type': 'text/html' })
+    if (err == '400') { res.end(config.error400page); return }
+    if (err == '401') { res.end(config.error401page); return }
+    if (err == '403') { res.end(config.error403page); return }
+    if (err == '404') { res.end(config.error404page); return }
+    if (err == '414') { res.end(config.error414page); return }
+    if (err == '500') { res.end(config.error500page); return }
+    res.write('<h3>Error </h3>')
+    res.write(`<p>Error code: ${err}</p>`)
+    res.end(`<u>${message}</u>`)
+  }
+
   function readfile () {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
@@ -31,6 +31,7 @@ const server = http.createServer((req, res) => {
           returnError(404, null)
           return
         }
+        res.setHeader('Content-type', mime.getType(req.url))
         res.end(data)
       })
     } catch (err) {
