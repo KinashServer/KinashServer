@@ -1,7 +1,6 @@
 {
 	"host" : "localhost",
 	"port" : "80",
-  "blacklistedurls" : "/blacklistedurl",
 	"authentication_url" : "/authentication",
 	"authentication_username" : "KinashServer",
 	"authentication_password" : "XiLi1A@IXK381c!#@&kz,x,1.12Z3A12X2AZ1xX1",
