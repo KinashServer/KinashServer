@@ -36,7 +36,7 @@ const server = http.createServer((req, res) => {
       })
     } catch (err) {
       returnError(500, null)
-      throw new Error('A unknown error happend in user request! Please report this')
+      throw new Error('A unknown error happend in user request! Please report this to our github')
     }
   };
   process.on('uncaughtException', function (err) {
@@ -61,13 +61,11 @@ const server = http.createServer((req, res) => {
             res.write(data)
             res.end()
           } else {
-            res.writeHead(404, { 'Content-Type': 'text/html' })
-            res.end(config.errornoindexpage)
+            returnError(404, null)
           }
         })
       } else {
-	    	res.writeHead(404, { 'Content-Type': 'text/html' })
-        res.end(config.errornoindexpage)
+	 returnError(503, "No index page")
       }
     })
   } else if (req.url == config.authentication_url) {
@@ -77,7 +75,7 @@ const server = http.createServer((req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
-	  returnError(500, null)
+	  returnError(503, "No authentication file found.")
 	  console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with but the authentication file doesnt exists \x1b[0m\x1b[32m')
         }
 	 res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -107,7 +105,7 @@ const server = http.createServer((req, res) => {
       readfile()
     }
   } else if (req.url === '/login.html/') {
-    returnError(404, null)
+    returnError(403, null)
   } else {
  	readfile()
   }
