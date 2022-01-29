@@ -1,3 +1,5 @@
+Configuration help:
+
 <h1>Where the config located?</h1>
 Config.json located at /configs/config.json
 
