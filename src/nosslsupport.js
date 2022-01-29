@@ -1,4 +1,3 @@
-//test
 const http = require('http')
 const config = require('../configs/config.json')
 const page = `<html><head>

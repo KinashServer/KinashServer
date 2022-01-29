@@ -4,7 +4,6 @@ const folder = '../public_html/'
 const config = require('../configs/config.json')
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
-const errorslog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 const mime = require('mime')
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
@@ -13,12 +12,12 @@ if (!fs.existsSync(folder)) {
 const server = http.createServer((req, res) => {
   function returnError (err, message) {
     res.writeHead(err, { 'Content-Type': 'text/html' })
-    if (err == '400') { res.end(config.error400page); return }
-    if (err == '401') { res.end(config.error401page); return }
-    if (err == '403') { res.end(config.error403page); return }
-    if (err == '404') { res.end(config.error404page); return }
-    if (err == '414') { res.end(config.error414page); return }
-    if (err == '500') { res.end(config.error500page); return }
+    if (err === '400') { res.end(config.error400page); return }
+    if (err === '401') { res.end(config.error401page); return }
+    if (err === '403') { res.end(config.error403page); return }
+    if (err === '404') { res.end(config.error404page); return }
+    if (err === '414') { res.end(config.error414page); return }
+    if (err === '500') { res.end(config.error500page); return }
     res.write('<h3>Error </h3>')
     res.write(`<p>Error code: ${err}</p>`)
     res.end(`<u>${message}</u>`)
@@ -52,12 +51,12 @@ const server = http.createServer((req, res) => {
   })
   log.log('[INFO] ' + '[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
   console.log('[INFO] ' + '\x1b[0m\x1b[32m [' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
-  if (req.url == '/') {
+  if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
         fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
           if (!err) {
- 	    res.writeHead(200, { 'Content-Type': 'text/html' })
+            res.writeHead(200, { 'Content-Type': 'text/html' })
             res.write(data)
             res.end()
           } else {
@@ -65,22 +64,22 @@ const server = http.createServer((req, res) => {
           }
         })
       } else {
-	 returnError(503, "No index page")
+        returnError(503, 'No index page')
       }
     })
-  } else if (req.url == config.authentication_url) {
+  } else if (req.url === config.authentication_url) {
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
     if (login && password && login === auth.login && password === auth.password) {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
-	  returnError(503, "No authentication file found.")
-	  console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with but the authentication file doesnt exists \x1b[0m\x1b[32m')
+          returnError(503, 'No authentication file found.')
+          console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with but the authentication file doesnt exists \x1b[0m\x1b[32m')
         }
-	 res.writeHead(200, { 'Content-Type': 'text/html' })
-	 res.end(data)
-	 console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
+        res.writeHead(200, { 'Content-Type': 'text/html' })
+        res.end(data)
+        console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
       })
       return
     }
@@ -96,18 +95,17 @@ const server = http.createServer((req, res) => {
   } else if (req.url === '/login.html') {
     returnError(404, null)
   } else if (req.url === '/robots.txt') {
-    if (config.disallowcrawlers == 'true') {
+    if (config.disallowcrawlers === 'true') {
       res.writeHead(200, { 'Content-Type': 'text/plain' })
       res.write('User-agent: *')
-      res.write('Disallow: /')
-      res.end('Disallow: *')
+      res.end('Disallow: /')
     } else {
       readfile()
     }
   } else if (req.url === '/login.html/') {
     returnError(403, null)
   } else {
- 	readfile()
+    readfile()
   }
 })
 server.listen(config.port, config.host, () => {

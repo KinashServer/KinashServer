@@ -1,5 +1,0 @@
-{
-    "name": "KinashServer",
-    "description": "A simple http server with some basic config",
-    "version": "1.4.2"
-}
