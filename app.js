@@ -86,12 +86,8 @@ const server = http.createServer((req, res) => {
     res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
     returnError(401, null)
     console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
-  } else if (req.url.includes === '/%') {
-    returnError(400, null)
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null)
-  } else if (req.url === config.blacklistedurls) {
-    returnError(403, null)
   } else if (req.url === '/login.html') {
     returnError(404, null)
   } else if (req.url === '/robots.txt') {
