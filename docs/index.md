@@ -7,3 +7,5 @@ Go to main server directory and run app.js
 <h1>What is the link to our github?</h1>
 
 Its <a href="https://github.com/andriy332/KinashServer">https://github.com/andriy332/KinashServer</a>
+<br>
+<a href="./configuration_help.md">Next page: configuration help</a>
