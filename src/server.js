@@ -9,27 +9,38 @@ const mime = require('mime')
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
 }
+
 const server = http.createServer((req, res) => {
-  res.setHeader('Content-type', mime.getType(req.url))
+  function returnError (err, message) {
+    res.writeHead(err, { 'Content-Type': 'text/html' })
+    if (err == '400') { res.end(config.error400page); return }
+    if (err == '401') { res.end(config.error401page); return }
+    if (err == '403') { res.end(config.error403page); return }
+    if (err == '404') { res.end(config.error404page); return }
+    if (err == '414') { res.end(config.error414page); return }
+    if (err == '500') { res.end(config.error500page); return }
+    res.write('<h3>Error </h3>')
+    res.write(`<p>Error code: ${err}</p>`)
+    res.end(`<u>${message}</u>`)
+  }
+
   function readfile () {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
         if (err) {
-          res.statusCode = 404
-          res.end(config.error404page)
+          returnError(404, null)
           return
         }
+        res.setHeader('Content-type', mime.getType(req.url))
         res.end(data)
       })
     } catch (err) {
-      res.statusCode = 500
-      res.write(config.error500page)
-      throw new KinashServerError('A unknown error happend in user request! Please report this')
+      returnError(500, null)
+      throw new Error('A unknown error happend in user request! Please report this to our github')
     }
   };
   process.on('uncaughtException', function (err) {
-    res.statusCode = 500
-    res.end(config.error500page)
+    returnError(500, null)
     console.error('\x1b[31m [ERROR] An error handling in user request')
     console.warn('\x1b[33m [WARN] Please report this bug to our github')
     console.warn('\x1b[33m [WARN] ERROR:')
@@ -50,13 +61,11 @@ const server = http.createServer((req, res) => {
             res.write(data)
             res.end()
           } else {
-            res.writeHead(404, { 'Content-Type': 'text/html' })
-            res.end(config.errornoindexpage)
+            returnError(404, null)
           }
         })
       } else {
-	    	res.writeHead(404, { 'Content-Type': 'text/html' })
-        res.end(config.errornoindexpage)
+	 returnError(503, "No index page")
       }
     })
   } else if (req.url == config.authentication_url) {
@@ -66,8 +75,7 @@ const server = http.createServer((req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
-	  res.writeHead(500, { 'Content-Type': 'text/html' })
-	  res.end(config.error500noauthpage)
+	  returnError(503, "No authentication file found.")
 	  console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with but the authentication file doesnt exists \x1b[0m\x1b[32m')
         }
 	 res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -77,21 +85,16 @@ const server = http.createServer((req, res) => {
       return
     }
     res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
-    res.writeHead(401, { 'Content-Type': 'text/html' })
-    res.end(config.error401page)
+    returnError(401, null)
     console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
   } else if (req.url.includes === '/%') {
-    res.writeHead(400, { 'Content-Type': 'text/html' })
-    res.end(config.error400page)
+    returnError(400, null)
   } else if (req.url.length > config.max_url_length) {
-    res.writeHead(414, { 'Content-Type': 'text/html' })
-    res.end(config.error414page)
+    returnError(414, null)
   } else if (req.url === config.blacklistedurls) {
-    res.writeHead(403, { 'Content-Type': 'text/html' })
-    res.end(config.error403page)
+    returnError(403, null)
   } else if (req.url === '/login.html') {
-    res.writeHead(403, { 'Content-Type': 'text/html' })
-    res.end(config.error403page)
+    returnError(404, null)
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers == 'true') {
       res.writeHead(200, { 'Content-Type': 'text/plain' })
@@ -102,8 +105,7 @@ const server = http.createServer((req, res) => {
       readfile()
     }
   } else if (req.url === '/login.html/') {
-    res.writeHead(403, { 'Content-Type': 'text/html' })
-    res.end(config.error403page)
+    returnError(403, null)
   } else {
  	readfile()
   }
