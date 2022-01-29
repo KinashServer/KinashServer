@@ -7,7 +7,7 @@
 	"authentication_realm" : "KinashServer",
 	"authentication_file" : "./public_html/login.html",
 	"max_url_length": "500",
-	"max_url_length_tip_do_not_change": "Pro Tip: Use only numbers in maxurl to prevent server crash",
+	"max_url_length_tip_do_not_change": "Pro Tip: Use only numbers in max_url_length to prevent server crash",
 	"error500page": "<html><head><title>Error: 500</title><link href='https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap' rel='stylesheet'></head><body><center style='margin-top: 15%'><h1 style='color: #401542; font-family: Roboto'>500</h1><br><br><p>Oops! An unknown error happend</p></center></body></html>",
 	"errornoindexpage": "Error: No index file found! Please create a new one",
 	"error500noauthpage": "Error: No authentication file found",
