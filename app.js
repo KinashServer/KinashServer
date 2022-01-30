@@ -1,13 +1,23 @@
-const http = require('http')
 const fs = require('fs')
 const folder = '../public_html/'
 const config = require('../configs/config.json')
+if(config.usessl === "false"){
+  const http = require('http')
+}
+else if(config.usessl === "true"){
+  const http = require('https')
+}
+else{
+  const http = require('http')
+}
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 const mime = require('mime')
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
 }
+
+
 
 const server = http.createServer((req, res) => {
   function returnError (err, message) {
