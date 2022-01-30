@@ -17,11 +17,6 @@
     "type": "git",
     "url": "https://github.com/andriy332/KinashServer.git"
   },
-  "standard": {
-    "ignore": [
-      "app.js"
-    ]
-  },
   "keywords": [
     "http",
     "server",
