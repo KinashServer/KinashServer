@@ -1,6 +1,6 @@
 const fs = require('fs')
-const folder = '../public_html/'
-const config = require('../configs/config.json')
+const folder = './public_html/'
+const config = require('./configs/config.json')
 if(config.usessl === "false"){
   const http = require('http')
   var ssloptions = null
