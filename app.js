@@ -7,6 +7,10 @@ if(config.usessl === "false"){
 }
 else if(config.usessl === "true"){
   const http = require('https')
+  const ssloptions = {
+    key: fs.readFileSync(config.ssl_key),
+    cert: fs.readFileSync(config.ssl_cert)
+  };
 }
 else{
   const http = require('http')
