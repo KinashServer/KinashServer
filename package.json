@@ -10,7 +10,8 @@
     "fs": ">0.0.0",
     "http": ">0.0.0",
     "mime": ">2.5.0",
-    "standard": "^16.0.0"
+    "standard": "^16.0.0",
+    "https": ">1.0.0"
   },
   "repository": {
     "type": "git",
