@@ -128,5 +128,10 @@ const server = http.createServer(options, (req, res) => {
   }
 })
 server.listen(port, config.host, () => {
-  console.log('\x1b[0m\x1b[32m[INFO] Server started at http://' + config.host + ':' + config.port + '/')
+  if(config.usessl === "true"){
+    console.log('\x1b[0m\x1b[32m[INFO] Server started at http://' + config.host + ':' + config.port + '/')
+  }
+  else{
+    console.log('\x1b[0m\x1b[32m[INFO] Server started at https://' + config.host + ':' + config.port + '/')
+  }
 })
