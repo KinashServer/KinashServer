@@ -12,6 +12,17 @@ else{
   const http = require('http')
   var ssloptions = null
 }
+if(config.port === "80"){
+  if(config.usessl === "false"){
+    var port = 80
+  }
+  if(config.usessl === "true"){
+    var port = 443
+  }
+}
+else{
+  var port = config.port
+}
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 const mime = require('mime')
@@ -116,6 +127,6 @@ const server = http.createServer(options, (req, res) => {
     readfile()
   }
 })
-server.listen(config.port, config.host, () => {
+server.listen(port, config.host, () => {
   console.log('\x1b[0m\x1b[32m[INFO] Server started at http://' + config.host + ':' + config.port + '/')
 })
