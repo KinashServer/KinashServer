@@ -16,6 +16,6 @@
 	"error414page": "<html><head><title>Error: 414</title><link href='https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap' rel='stylesheet'></head><body><center style='margin-top: 15%'><h1 style='color: #401542; font-family: Roboto'>414</h1><br><br><p>Oops! The request url is too long to be processed by the server.</p></center></body></html>",
 	"error403page": "<html><head><title>Error: 403</title><link href='https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap' rel='stylesheet'></head><body><center style='margin-top: 15%'><h1 style='color: #401542; font-family: Roboto'>403</h1><br><br><p>Oops! You don%27t have permission to view this page</p></center></body></html>",
 	"error404page": "<html><head><title>Error: 404</title><link href='https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap' rel='stylesheet'></head><body><center style='margin-top: 15%'><h1 style='color: #401542; font-family: Roboto'>404</h1><br><br><p>This file <script>document.write(window.location.href)</script> was not found at this server.</p></center></body></html>",
-	"disallowcrawlers":"false"
+	"disallowcrawlers":"false",
 	"usessl":"false"
 }
