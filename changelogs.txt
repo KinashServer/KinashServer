@@ -1,3 +1,17 @@
+1.5.1:
+Fixed app.js
+Fixed changelogs.txt
+Fixed package.json
+
+1.5:
+Removed "blacklistedurls" functionality
+Fixed spelling error in config.json
+Created docs (available at https://andriy332.github.io/KinashServer/)
+Added some checks
+Added default-config.json
+Updated debug.cmd
+Fixed code stylistics errors
+
 1.4.1:
 Deleted install-all-libs.bat
 Fixed debug.cmd
