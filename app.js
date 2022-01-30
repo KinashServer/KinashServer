@@ -3,12 +3,14 @@ const folder = '../public_html/'
 const config = require('../configs/config.json')
 if(config.usessl === "false"){
   const http = require('http')
+  var ssloptions = null
 }
 else if(config.usessl === "true"){
   const http = require('https')
 }
 else{
   const http = require('http')
+  var ssloptions = null
 }
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
@@ -19,7 +21,7 @@ if (!fs.existsSync(folder)) {
 
 
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(options, (req, res) => {
   function returnError (err, message) {
     res.writeHead(err, { 'Content-Type': 'text/html' })
     if (err === '400') { res.end(config.error400page); return }
