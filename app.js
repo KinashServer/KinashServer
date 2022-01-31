@@ -10,6 +10,14 @@ if (!fs.existsSync(folder)) {
 }
 
 const server = http.createServer((req, res) => {
+  function writeContent (content) {
+    res.write(content)
+  }
+  
+  function endResponse (content) {
+    res.end(content)
+  }
+  
   function returnError (err, message) {
     res.writeHead(err, { 'Content-Type': 'text/html' })
     if (err === '400') { res.end(config.error400page); return }
@@ -18,11 +26,11 @@ const server = http.createServer((req, res) => {
     if (err === '404') { res.end(config.error404page); return }
     if (err === '414') { res.end(config.error414page); return }
     if (err === '500') { res.end(config.error500page); return }
-    res.write('<h3>Error </h3>')
-    res.write(`<p>Error code: ${err}</p>`)
-    res.end(`<u>${message}</u>`)
+    writeContent(`<h3>Error</h3>`)
+    writeContent(`<p>Error code: ${err}</p>`)
+    endResponse(`<u>${message}</u>`)
   }
-
+  
   function readfile () {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
@@ -31,7 +39,7 @@ const server = http.createServer((req, res) => {
           return
         }
         res.setHeader('Content-type', mime.getType(req.url))
-        res.end(data)
+        endResponse(data)
       })
     } catch (err) {
       returnError(500, null)
@@ -57,8 +65,7 @@ const server = http.createServer((req, res) => {
         fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
           if (!err) {
             res.writeHead(200, { 'Content-Type': 'text/html' })
-            res.write(data)
-            res.end()
+            endResponse(data)
           } else {
             returnError(404, null)
           }
@@ -78,7 +85,7 @@ const server = http.createServer((req, res) => {
           console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with but the authentication file doesnt exists \x1b[0m\x1b[32m')
         }
         res.writeHead(200, { 'Content-Type': 'text/html' })
-        res.end(data)
+        endResponse(data)
         console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
       })
       return
@@ -93,8 +100,8 @@ const server = http.createServer((req, res) => {
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
       res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.write('User-agent: *')
-      res.end('Disallow: /')
+      writeContent('User-agent: *')
+      endResponse('Disallow: /')
     } else {
       readfile()
     }
