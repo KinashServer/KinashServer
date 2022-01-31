@@ -19,5 +19,5 @@
 	"disallowcrawlers": "false",
 	"usessl": "false",
 	"ssl_key": "./ssl/key.pem",
-	"ssl_cert": "./ssl/cert.pem",
+	"ssl_cert": "./ssl/cert.pem"
 }
