@@ -1,7 +1,14 @@
-name: main
+name: njsscan
 on: [push, pull_request]
 jobs:
-  Start_Server:
-    runs-on: windows-latest
+  njsscan:
+    runs-on: ubuntu-latest
+    name: njsscan check
     steps:
-      - run: cd .. & npm start
+    - name: Checkout the code
+      uses: actions/checkout@v2
+    - name: nodejsscan scan
+      id: njsscan
+      uses: ajinabraham/njsscan-action@master
+      with:
+        args: '.'
