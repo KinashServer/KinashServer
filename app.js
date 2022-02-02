@@ -13,11 +13,11 @@ const server = http.createServer((req, res) => {
   function writeContent (content) {
     res.write(content)
   }
-  
+
   function endResponse (content) {
     res.end(content)
   }
-  
+
   function returnError (err, message) {
     res.writeHead(err, { 'Content-Type': 'text/html' })
     if (err === '400') { res.end(config.error400page); return }
@@ -26,11 +26,11 @@ const server = http.createServer((req, res) => {
     if (err === '404') { res.end(config.error404page); return }
     if (err === '414') { res.end(config.error414page); return }
     if (err === '500') { res.end(config.error500page); return }
-    writeContent(`<h3>Error</h3>`)
+    writeContent('<h3>Error</h3>')
     writeContent(`<p>Error code: ${err}</p>`)
     endResponse(`<u>${message}</u>`)
   }
-  
+
   function readfile () {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
