@@ -4,4 +4,4 @@ jobs:
   Start_Server:
     runs-on: windows-latest
     steps:
-      - run: npm start
+      - run: cd .. & npm start
