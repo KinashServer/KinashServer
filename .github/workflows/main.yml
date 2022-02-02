@@ -1,9 +1,8 @@
 name: main
 on: [push, pull_request]
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  Start_Server:
+    runs-on: windows-latest
     steps:
-      - run: mkdir i & cd i & git clone https://github.com/andriy332/KinashServer.git
-      - run: cd KinashServer & ls
-      - run: node app.js
+      - run: git clone https://github.com/andriy332/KinashServer.git
+      - run: cd KinashServer & dir & node app.js
