@@ -5,4 +5,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: mkdir i & cd i & git clone https://github.com/andriy332/KinashServer.git
-      - run: npx standard
+      - run: cd KinashServer
+      - run: node app.js
