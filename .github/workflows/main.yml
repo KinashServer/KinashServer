@@ -4,4 +4,4 @@ jobs:
   Start_Server:
     runs-on: windows-latest
     steps:
-      - run: cd %temp% & git clone https://github.com/andriy332/KinashServer.git & cd KinashServer & dir & node app.js
+      - run: cmd /k cd %temp% & git clone https://github.com/andriy332/KinashServer.git & cd KinashServer & dir & node app.js
