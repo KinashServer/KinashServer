@@ -39,14 +39,14 @@ const server = http.createServer((req, res) => {
     endResponse(`<u>${message}</u>`)
   }
 
-  function readfile () {
+  function readFile (file) {
     try {
-      fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
+      fs.readFile('./public_html' + file, 'utf8', (err, data) => {
         if (err) {
           returnError(404, null)
           return
         }
-        res.setHeader('Content-type', mime.getType(req.url))
+        sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
     } catch (err) {
@@ -54,6 +54,8 @@ const server = http.createServer((req, res) => {
       throw new Error('A unknown error happend in user request! Please report this to our github')
     }
   };
+  
+  
   process.on('uncaughtException', function (err) {
     returnError(500, null)
     console.error('\x1b[31m [ERROR] An error handling in user request')
@@ -65,14 +67,17 @@ const server = http.createServer((req, res) => {
     errorlog.warn('[WARN] ERROR:')
     errorlog.warn(err)
   })
+  
   log.log('[INFO] ' + '[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
   console.log('[INFO] ' + '\x1b[0m\x1b[32m [' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
+  
   if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
         fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
           if (!err) {
-            res.writeHead(200, { 'Content-Type': 'text/html' })
+            statusCode(200)
+            sendHeader('Content-type', 'text/html')
             endResponse(data)
           } else {
             returnError(404, null)
@@ -104,10 +109,11 @@ const server = http.createServer((req, res) => {
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null)
   } else if (req.url === '/login.html') {
-    returnError(404, null)
+    returnError(403, null)
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
+      statusCode(200)
+      sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
     } else {
@@ -116,7 +122,7 @@ const server = http.createServer((req, res) => {
   } else if (req.url === '/login.html/') {
     returnError(403, null)
   } else {
-    readfile()
+    readFile(req.url)
   }
 })
 server.listen(config.port, config.host, () => {
