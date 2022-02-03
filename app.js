@@ -70,8 +70,10 @@ const server = http.createServer((req, res) => {
   
   log.log('[INFO] ' + '[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
   console.log('[INFO] ' + '\x1b[0m\x1b[32m [' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
-  
-  if (req.url === '/') {
+  if(req.method ===! 'GET'){
+    returnError(405, null)
+  }
+  else if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
         fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
