@@ -1,7 +1,5 @@
 1.5.1:
-Fixed app.js
-Fixed changelogs.txt
-Fixed package.json
+Fixed some files
 
 1.5:
 Removed "blacklistedurls" functionality
