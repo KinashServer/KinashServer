@@ -10,6 +10,14 @@ if (!fs.existsSync(folder)) {
 }
 
 const server = http.createServer((req, res) => {
+  function statusCode (code) {
+    res.statusCode = code
+  }
+  
+  function sendHeader (header, value) {
+    res.setHeader(header, value)
+  }
+  
   function writeContent (content) {
     res.write(content)
   }
