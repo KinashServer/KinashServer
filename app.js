@@ -25,7 +25,22 @@ const server = http.createServer((req, res) => {
   function endResponse (content) {
     res.end(content)
   }
+  
+  function info (content) {
+    console.log('\x1b[0m\x1b[32m INFO >> ' + content)
+    log.log('INFO >> ' + content)
+  }
 
+  function warning (content) {
+    console.log('\x1b[0m\x1b[33m WARN >> ' + content)
+    log.warning('WARN >> ' + content)
+  }
+  
+  function error (content) {
+    console.log('\x1b[0m\x1b[31m ERROR >> ' + content)
+    log.error('ERROR >> ' + content)
+  }
+  
   function returnError (err, message) {
     res.writeHead(err, { 'Content-Type': 'text/html' })
     if (err === '400') { res.end(config.error400page); return }
@@ -52,6 +67,7 @@ const server = http.createServer((req, res) => {
       })
     } catch (err) {
       returnError(500, null)
+      error('Unknown error')
       throw new Error('A unknown error happend in user request! Please report this to our github')
     }
   };
@@ -59,21 +75,18 @@ const server = http.createServer((req, res) => {
   
   process.on('uncaughtException', function (err) {
     returnError(500, null)
-    console.error('\x1b[31m [ERROR] An error handling in user request')
-    console.warn('\x1b[33m [WARN] Please report this bug to our github')
-    console.warn('\x1b[33m [WARN] ERROR:')
-    console.warn('\x1b[33m' + err + '\x1b[0m')
-    errorlog.error('[ERROR] An error handling in user request')
-    errorlog.warn('[WARN] Please report this bug to our github')
-    errorlog.warn('[WARN] ERROR:')
-    errorlog.warn(err)
+    error('Error handling this user request!')
+    error('Please report it to our github: https://github.com/andriy332/KinashServer/')
+    error('ERROR: ' + err)
+    warning('Do not forget to share full server log')
   })
   
-  log.log('[INFO] ' + '[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
-  console.log('[INFO] ' + '\x1b[0m\x1b[32m [' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
+  info('[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
+  
   if(req.method ===! 'GET'){
     returnError(405, null)
   }
+  
   else if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
@@ -87,9 +100,11 @@ const server = http.createServer((req, res) => {
           }
         })
       } else {
-        returnError(503, 'No index page')
+        returnError(503, 'Default index.html file is missing')
+        error('The index.html file is missing')
       }
     })
+    
   } else if (req.url === config.authentication_url) {
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
@@ -97,37 +112,44 @@ const server = http.createServer((req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
-          returnError(503, 'No authentication file found.')
-          console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with but the authentication file doesnt exists \x1b[0m\x1b[32m')
+          returnError(503, 'Authentication file is missing.')
+          warning('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
+          error('Error: the authentication file is missing')
         }
         res.writeHead(200, { 'Content-Type': 'text/html' })
         endResponse(data)
-        console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
+        warning('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
       })
       return
     }
     res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
     returnError(401, null)
-    console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
+    warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null)
   } else if (req.url === '/login.html') {
     returnError(403, null)
+    warning('Denied user request ' + req.socket.remoteAddress + ' to ' + req.url)
+    warning('Reason: This page is protected')
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
+      info('Returning default robots.txt page (because disallow crawlers is on)')
       statusCode(200)
       sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
     } else {
-      readfile()
+      readFile()
     }
   } else if (req.url === '/login.html/') {
     returnError(403, null)
+    warning('Denied user request ' + req.socket.remoteAddress + ' to ' + req.url)
+    warning('Reason: This page is protected')
   } else {
     readFile()
   }
 })
+
 server.listen(config.port, config.host, () => {
-  console.log('\x1b[0m\x1b[32m[INFO] Server started at http://' + config.host + ':' + config.port + '/')
+  info('Server started at http://' + config.host + ':' + config.port + '/')
 })
