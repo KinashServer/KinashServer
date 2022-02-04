@@ -41,18 +41,43 @@ const server = http.createServer((req, res) => {
     log.log('ERROR >> ' + content)
   }
   
-  function returnError (err, message) {
+  function returnError (err, message, statusText) {
     res.writeHead(err, { 'Content-Type': 'text/html' })
-    if (err === '400') { res.end(config.error400page); return }
-    if (err === '401') { res.end(config.error401page); return }
-    if (err === '403') { res.end(config.error403page); return }
-    if (err === '404') { res.end(config.error404page); return }
-    if (err === '405') { res.end('Unsupported method'); return }
-    if (err === '414') { res.end(config.error414page); return }
-    if (err === '500') { res.end(config.error500page); return }
-    writeContent('<h3>Error</h3>')
-    writeContent(`<p>Error code: ${err}</p>`)
-    endResponse(`<u>${message}</u>`)
+    if (err === 400 || message === "null") {
+		res.end(config.error400page)
+		return 
+	}
+    if (err === 401 || message === "null") {
+		res.end(config.error401page)
+		return 
+	}
+    if (err === 403 || message === "null") {
+		res.end(config.error403page)
+		return 
+	}
+    if (err === 404 || message === "null") {
+		res.end(config.error404page)
+		return 
+	}
+    if (err === 405 || message === "null") {
+		res.end('Unsupported method')
+		return 
+	}
+    if (err === 414 || message === "null") {
+		res.end(config.error414page)
+		return 
+	}
+    if (err === 500 || message === "null") {
+		res.end(config.error500page)
+		return 
+	}
+	else{
+		writeContent('<center>')
+		writeContent(`<h1>${err} ${statusTitle}</h1>`)
+		writeContent(`<p>${message}</p>`)
+		writeContent('</center>')
+		
+	}
   }
 
   function readFile () {
@@ -96,11 +121,11 @@ const server = http.createServer((req, res) => {
             sendHeader('Content-type', 'text/html')
             endResponse(data)
           } else {
-            returnError(404, null)
+            returnError(404, null, null)
           }
         })
       } else {
-        returnError(503, 'Default index.html file is missing')
+        returnError(500, 'Default index.html file is missing')
         error('The index.html file is missing')
       }
     })
