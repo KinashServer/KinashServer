@@ -125,7 +125,7 @@ const server = http.createServer((req, res) => {
           }
         })
       } else {
-        returnError(503, 'Service unavalible', 'Default index.html file is missing')
+        returnError(500, 'Default index.html file is missing')
         error('The index.html file is missing')
       }
     })
