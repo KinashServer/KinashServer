@@ -137,7 +137,7 @@ const server = http.createServer((req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
-          returnError(503, 'Authentication file is missing.')
+          returnError(500, 'Authentication file is missing.')
           warning('User ' + req.socket.remoteAddress + ' passed the authentication')
           error('Error: the authentication file is missing')
         }
