@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
     if (err === '401') { res.end(config.error401page); return }
     if (err === '403') { res.end(config.error403page); return }
     if (err === '404') { res.end(config.error404page); return }
-    if (err === '405') { res.end(config.error405page); return }
+    if (err === '405') { res.end('Unsupported method'); return }
     if (err === '414') { res.end(config.error414page); return }
     if (err === '500') { res.end(config.error500page); return }
     writeContent('<h3>Error</h3>')
