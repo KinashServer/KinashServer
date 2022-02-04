@@ -33,12 +33,12 @@ const server = http.createServer((req, res) => {
 
   function warning (content) {
     console.log('\x1b[0m\x1b[33m WARN >> ' + content)
-    log.warning('WARN >> ' + content)
+    log.log('WARN >> ' + content)
   }
   
   function error (content) {
     console.log('\x1b[0m\x1b[31m ERROR >> ' + content)
-    log.error('ERROR >> ' + content)
+    log.log('ERROR >> ' + content)
   }
   
   function returnError (err, message) {
@@ -113,12 +113,12 @@ const server = http.createServer((req, res) => {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
           returnError(503, 'Authentication file is missing.')
-          warning('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
+          warning('User ' + req.socket.remoteAddress + ' passed the authentication')
           error('Error: the authentication file is missing')
         }
         res.writeHead(200, { 'Content-Type': 'text/html' })
         endResponse(data)
-        warning('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication')
+        warning('User ' + req.socket.remoteAddress + ' passed the authentication')
       })
       return
     }
@@ -151,5 +151,5 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(config.port, config.host, () => {
-  info('Server started at http://' + config.host + ':' + config.port + '/')
+  console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
 })
