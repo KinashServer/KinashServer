@@ -40,9 +40,9 @@ const server = http.createServer((req, res) => {
     endResponse(`<u>${message}</u>`)
   }
 
-  function readFile (file) {
+  function readFile () {
     try {
-      fs.readFile('./public_html' + file, 'utf8', (err, data) => {
+      fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
         if (err) {
           returnError(404, null)
           return
@@ -125,7 +125,7 @@ const server = http.createServer((req, res) => {
   } else if (req.url === '/login.html/') {
     returnError(403, null)
   } else {
-    readFile(req.url)
+    readFile()
   }
 })
 server.listen(config.port, config.host, () => {
