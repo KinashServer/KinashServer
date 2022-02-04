@@ -73,10 +73,10 @@ const server = http.createServer((req, res) => {
 	}
 	else{
 		writeContent('<center>')
-		writeContent(`<h1>${err} ${statusTitle}</h1>`)
+		writeContent(`<h1>${err} ${statusText}</h1>`)
 		writeContent(`<p>${message}</p>`)
 		writeContent('</center>')
-		
+		endResponse()
 	}
   }
 
@@ -125,7 +125,7 @@ const server = http.createServer((req, res) => {
           }
         })
       } else {
-        returnError(500, 'Default index.html file is missing')
+        returnError(503, 'Service unavalible', 'Default index.html file is missing')
         error('The index.html file is missing')
       }
     })
