@@ -10,16 +10,10 @@
     "fs": ">0.0.0",
     "http": ">0.0.0",
     "mime": ">2.5.0",
-    "standard": "^16.0.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/andriy332/KinashServer.git"
-  },
-  "standard": {
-    "ignore": [
-      "app.js"
-    ]
   },
   "keywords": [
     "http",
