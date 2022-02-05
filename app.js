@@ -41,6 +41,12 @@ const server = http.createServer((req, res) => {
     log.log('ERROR >> ' + content)
   }
   
+  function accessDenied (reason) {
+    status(403)
+    warning('Denied user request from ' + req.socket.remoteAddress + ' to ' + req.url)
+    warning('Reason: ' + reason)
+  }
+  
   function returnError (err, message, statusText) {
     status(err)
     sendHeader('Content-Type', 'text/html')
@@ -61,7 +67,7 @@ const server = http.createServer((req, res) => {
 		return 
 	}
     if (err === 405 || message === "null") {
-		endResponse('Unsupported method')
+		endResponse('Unsupported method: ')
 		return 
 	}
     if (err === 414 || message === "null") {
@@ -106,7 +112,7 @@ const server = http.createServer((req, res) => {
     warning('Do not forget to share full server log')
   })
   
-  info('[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
+  info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + req.useragent + ' ' + + Date())
   
   if(req.method ===! 'GET'){
     returnError(405, null, null)
@@ -138,7 +144,7 @@ const server = http.createServer((req, res) => {
         if (err) {
           returnError(500, null, null)
           warning('User ' + req.socket.remoteAddress + ' passed the authentication')
-          error('Error: the authentication file is missing')
+          error('Error: The authentication file is missing')
         }
         sendHeader('Content-Type', 'text/html')
         endResponse(data)
@@ -152,9 +158,7 @@ const server = http.createServer((req, res) => {
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
   } else if (req.url === '/login.html' || req.url === '/login.html/') {
-    returnError(403, null, null)
-    warning('Denied user request ' + req.socket.remoteAddress + ' to ' + req.url)
-    warning('Reason: This page is protected')
+    accessDenied('This page is protected.')
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
       info('Returning default robots.txt page (because disallow crawlers is on)')
