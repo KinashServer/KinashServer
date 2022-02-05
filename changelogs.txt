@@ -23,6 +23,7 @@ Removed unused check
 Removed max_url_length_tip_do_not_change from config
 Removed error500noauthpage from config
 Removed errornoindexpage from config
+Removed standardjs from dependencies
 
 1.5.1:
 Fixed some files
