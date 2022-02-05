@@ -151,7 +151,7 @@ const server = http.createServer((req, res) => {
     warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
-  } else if (req.url === '/login.html') {
+  } else if (req.url === '/login.html' || req.url === '/login.html/') {
     returnError(403, null, null)
     warning('Denied user request ' + req.socket.remoteAddress + ' to ' + req.url)
     warning('Reason: This page is protected')
@@ -164,10 +164,6 @@ const server = http.createServer((req, res) => {
     } else {
       readFile()
     }
-  } else if (req.url === '/login.html/') {
-    returnError(403, null)
-    warning('Denied user request ' + req.socket.remoteAddress + ' to ' + req.url)
-    warning('Reason: This page is protected')
   } else {
     readFile()
   }
