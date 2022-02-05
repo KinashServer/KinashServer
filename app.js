@@ -5,6 +5,8 @@ const config = require('./configs/config.json')
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 const mime = require('mime')
+const server_version = '1.6'
+
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
 }
@@ -67,11 +69,15 @@ const server = http.createServer((req, res) => {
 		return 
 	}
     if (err === 405 || message === "null") {
-		endResponse('Unsupported method: ')
+		endResponse(config.error405page)
 		return 
 	}
     if (err === 414 || message === "null") {
 		endResponse(config.error414page)
+		return 
+	}
+    if (err === 431 || message === "null") {
+		endResponse(config.error431page)
 		return 
 	}
     if (err === 500 || message === "null") {
@@ -107,9 +113,19 @@ const server = http.createServer((req, res) => {
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
     error('Error handling this user request!')
-    error('Please report it to our github: https://github.com/andriy332/KinashServer/')
+    error('Please report this error to our github: https://github.com/andriy332/KinashServer/')
     error(err)
-    warning('Do not forget to share full server log')
+    warning('Do not forget to send full server log')
+    warning('And do not forget to send this details: ')
+    warning('Server version: ' + server_version)  
+    warning('Request url: ' + req.url)
+    warning('Request method: ' + req.method)
+    warning('authentication_url' + config.authentication_url)
+    warning('authentication_username' + config.authentication_username)
+    warning('authentication_realm' + config.authentication_realm)
+    warning('authentication_file' + config.authentication_file)
+    warning('max_url_length' + config.max_url_length)
+    warning('disallowcrawlers' + config.disallowcrawlers)
   })
   
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + req.useragent + ' ' + + Date())
@@ -161,7 +177,7 @@ const server = http.createServer((req, res) => {
     accessDenied('This page is protected.')
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
-      info('Returning default robots.txt page (because disallow crawlers is on)')
+      info('Returning default robots.txt page (because disallow crawlers is on in config.json)')
       sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
