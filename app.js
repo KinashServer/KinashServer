@@ -1,11 +1,10 @@
 const http = require('http')
 const fs = require('fs')
-const folder = './public_html/'
+const mime = require('mime')
 const config = require('./configs/config.json')
+const folder = './public_html/'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
-const mime = require('mime')
-const server_version = '1.6'
 
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
