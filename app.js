@@ -10,7 +10,7 @@ if (!fs.existsSync(folder)) {
 }
 
 const server = http.createServer((req, res) => {
-  function statusCode (code) {
+  function status (code) {
     res.statusCode = code
   }
   
@@ -42,41 +42,41 @@ const server = http.createServer((req, res) => {
   }
   
   function returnError (err, message, statusText) {
-    res.writeHead(err, { 'Content-Type': 'text/html' })
+    status(err)
+    sendHeader('Content-Type', 'text/html')
     if (err === 400 || message === "null") {
-		res.end(config.error400page)
+		endResponse(config.error400page)
 		return 
 	}
     if (err === 401 || message === "null") {
-		res.end(config.error401page)
+		endResponse(config.error401page)
 		return 
 	}
     if (err === 403 || message === "null") {
-		res.end(config.error403page)
+		endResponse(config.error403page)
 		return 
 	}
     if (err === 404 || message === "null") {
-		res.end(config.error404page)
+		endResponse(config.error404page)
 		return 
 	}
     if (err === 405 || message === "null") {
-		res.end('Unsupported method')
+		endResponse('Unsupported method')
 		return 
 	}
     if (err === 414 || message === "null") {
-		res.end(config.error414page)
+		endResponse(config.error414page)
 		return 
 	}
     if (err === 500 || message === "null") {
-		res.end(config.error500page)
+		endResponse(config.error500page)
 		return 
 	}
 	else{
 		writeContent('<center>')
 		writeContent(`<h1>${err} ${statusText}</h1>`)
 		writeContent(`<p>${message}</p>`)
-		writeContent('</center>')
-		endResponse()
+		endResponse('</center>')
 	}
   }
 
@@ -84,14 +84,14 @@ const server = http.createServer((req, res) => {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
         if (err) {
-          returnError(404, null)
+          returnError(404, null, null)
           return
         }
         sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
     } catch (err) {
-      returnError(500, null)
+      returnError(500, null, null)
       error('Unknown error')
       throw new Error('A unknown error happend in user request! Please report this to our github')
     }
@@ -99,17 +99,17 @@ const server = http.createServer((req, res) => {
   
   
   process.on('uncaughtException', function (err) {
-    returnError(500, null)
+    returnError(500, null, null)
     error('Error handling this user request!')
     error('Please report it to our github: https://github.com/andriy332/KinashServer/')
-    error('ERROR: ' + err)
+    error(err)
     warning('Do not forget to share full server log')
   })
   
   info('[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
   
   if(req.method ===! 'GET'){
-    returnError(405, null)
+    returnError(405, null, null)
   }
   
   else if (req.url === '/') {
@@ -117,7 +117,6 @@ const server = http.createServer((req, res) => {
       if (!err) {
         fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
           if (!err) {
-            statusCode(200)
             sendHeader('Content-type', 'text/html')
             endResponse(data)
           } else {
@@ -125,7 +124,7 @@ const server = http.createServer((req, res) => {
           }
         })
       } else {
-        returnError(500, 'Default index.html file is missing')
+        returnError(500, null, null)
         error('The index.html file is missing')
       }
     })
@@ -137,29 +136,28 @@ const server = http.createServer((req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
-          returnError(500, 'Authentication file is missing.')
+          returnError(500, null, null)
           warning('User ' + req.socket.remoteAddress + ' passed the authentication')
           error('Error: the authentication file is missing')
         }
-        res.writeHead(200, { 'Content-Type': 'text/html' })
+        sendHeader('Content-Type', 'text/html')
         endResponse(data)
         warning('User ' + req.socket.remoteAddress + ' passed the authentication')
       })
       return
     }
     res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
-    returnError(401, null)
+    returnError(401, null, null)
     warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
   } else if (req.url.length > config.max_url_length) {
-    returnError(414, null)
+    returnError(414, null, null)
   } else if (req.url === '/login.html') {
-    returnError(403, null)
+    returnError(403, null, null)
     warning('Denied user request ' + req.socket.remoteAddress + ' to ' + req.url)
     warning('Reason: This page is protected')
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
       info('Returning default robots.txt page (because disallow crawlers is on)')
-      statusCode(200)
       sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
