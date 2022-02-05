@@ -127,7 +127,7 @@ const server = http.createServer((req, res) => {
     warning('disallowcrawlers' + config.disallowcrawlers)
   })
 
-  info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + req.useragent + ' ' + + Date())
+  info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
 
   if(req.method ===! 'GET'){
     returnError(405, null, null)
