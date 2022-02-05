@@ -16,7 +16,7 @@ Fixed debug.cmd
 
 1.4:
 
-Tabulation fix
+Fixed tabulation
 Added Disallow crawlers functionality
 Moved read-file code to readfile()
 Used 
@@ -26,5 +26,4 @@ instand of
 console.error('\x1b[31m [ERROR] try { fail (148 line)')`
 Updated error pages
 Added package.json
-Fixed code style
-New index.html
+Updated index.html
