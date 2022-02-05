@@ -44,9 +44,9 @@ const server = http.createServer((req, res) => {
   }
 
   function accessDenied (reason) {
-    status(403)
     warning('Denied user request from ' + req.socket.remoteAddress + ' to ' + req.url)
     warning('Reason: ' + reason)
+    returnError(403, null, null)
   }
 
   function returnError (err, message, statusText) {
