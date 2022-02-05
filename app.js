@@ -12,14 +12,15 @@ if (!fs.existsSync(folder)) {
 }
 
 const server = http.createServer((req, res) => {
+
   function status (code) {
     res.statusCode = code
   }
-  
+
   function sendHeader (header, value) {
     res.setHeader(header, value)
   }
-  
+
   function writeContent (content) {
     res.write(content)
   }
@@ -27,7 +28,7 @@ const server = http.createServer((req, res) => {
   function endResponse (content) {
     res.end(content)
   }
-  
+
   function info (content) {
     console.log('\x1b[0m\x1b[32m INFO >> ' + content)
     log.log('INFO >> ' + content)
@@ -37,59 +38,59 @@ const server = http.createServer((req, res) => {
     console.log('\x1b[0m\x1b[33m WARN >> ' + content)
     log.log('WARN >> ' + content)
   }
-  
+
   function error (content) {
     console.log('\x1b[0m\x1b[31m ERROR >> ' + content)
     log.log('ERROR >> ' + content)
   }
-  
+
   function accessDenied (reason) {
     status(403)
     warning('Denied user request from ' + req.socket.remoteAddress + ' to ' + req.url)
     warning('Reason: ' + reason)
   }
-  
+
   function returnError (err, message, statusText) {
     status(err)
     sendHeader('Content-Type', 'text/html')
     if (err === 400 || message === "null") {
 		endResponse(config.error400page)
 		return 
-	}
+    }
     if (err === 401 || message === "null") {
 		endResponse(config.error401page)
 		return 
-	}
+    }
     if (err === 403 || message === "null") {
 		endResponse(config.error403page)
 		return 
-	}
+    }
     if (err === 404 || message === "null") {
 		endResponse(config.error404page)
 		return 
-	}
+    }
     if (err === 405 || message === "null") {
 		endResponse(config.error405page)
 		return 
-	}
+    }
     if (err === 414 || message === "null") {
 		endResponse(config.error414page)
 		return 
-	}
+    }
     if (err === 431 || message === "null") {
 		endResponse(config.error431page)
 		return 
-	}
+    }
     if (err === 500 || message === "null") {
 		endResponse(config.error500page)
 		return 
-	}
-	else{
-		writeContent('<center>')
-		writeContent(`<h1>${err} ${statusText}</h1>`)
-		writeContent(`<p>${message}</p>`)
-		endResponse('</center>')
-	}
+    }
+    else{
+        writeContent('<center>')
+        writeContent(`<h1>${err} ${statusText}</h1>`)
+        writeContent(`<p>${message}</p>`)
+        endResponse('</center>')
+    }
   }
 
   function readFile () {
@@ -108,8 +109,7 @@ const server = http.createServer((req, res) => {
       throw new Error('A unknown error happend in user request! Please report this to our github')
     }
   };
-  
-  
+
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
     error('Error handling this user request!')
@@ -127,13 +127,17 @@ const server = http.createServer((req, res) => {
     warning('max_url_length' + config.max_url_length)
     warning('disallowcrawlers' + config.disallowcrawlers)
   })
-  
+
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + req.useragent + ' ' + + Date())
-  
+
   if(req.method ===! 'GET'){
     returnError(405, null, null)
   }
-  
+
+  else if(req.url.length > 9999){
+    returnError(431, null, null)
+  }
+
   else if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
@@ -150,7 +154,7 @@ const server = http.createServer((req, res) => {
         error('The index.html file is missing')
       }
     })
-    
+  
   } else if (req.url === config.authentication_url) {
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
