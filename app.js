@@ -1,15 +1,25 @@
 const http = require('http')
 const fs = require('fs')
-const folder = './public_html/'
+const mime = require('mime')
 const config = require('./configs/config.json')
+const folder = './public_html/'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
-const mime = require('mime')
+
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
 }
 
 const server = http.createServer((req, res) => {
+
+  function status (code) {
+    res.statusCode = code
+  }
+
+  function sendHeader (header, value) {
+    res.setHeader(header, value)
+  }
+
   function writeContent (content) {
     res.write(content)
   }
@@ -18,62 +28,132 @@ const server = http.createServer((req, res) => {
     res.end(content)
   }
 
-  function returnError (err, message) {
-    res.writeHead(err, { 'Content-Type': 'text/html' })
-    if (err === '400') { res.end(config.error400page); return }
-    if (err === '401') { res.end(config.error401page); return }
-    if (err === '403') { res.end(config.error403page); return }
-    if (err === '404') { res.end(config.error404page); return }
-    if (err === '414') { res.end(config.error414page); return }
-    if (err === '500') { res.end(config.error500page); return }
-    writeContent('<h3>Error</h3>')
-    writeContent(`<p>Error code: ${err}</p>`)
-    endResponse(`<u>${message}</u>`)
+  function info (content) {
+    console.log('\x1b[0m\x1b[32m INFO >> ' + content)
+    log.log('INFO >> ' + content)
   }
 
-  function readfile () {
+  function warning (content) {
+    console.log('\x1b[0m\x1b[33m WARN >> ' + content)
+    log.log('WARN >> ' + content)
+  }
+
+  function error (content) {
+    console.log('\x1b[0m\x1b[31m ERROR >> ' + content)
+    log.log('ERROR >> ' + content)
+  }
+
+  function accessDenied (reason) {
+    warning('Denied user request from ' + req.socket.remoteAddress + ' to ' + req.url)
+    warning('Reason: ' + reason)
+    returnError(403, null, null)
+  }
+
+  function returnError (err, message, statusText) {
+    status(err)
+    sendHeader('Content-Type', 'text/html')
+    if (err === 400 || message === "null") {
+		endResponse(config.error400page)
+		return 
+    }
+    if (err === 401 || message === "null") {
+		endResponse(config.error401page)
+		return 
+    }
+    if (err === 403 || message === "null") {
+		endResponse(config.error403page)
+		return 
+    }
+    if (err === 404 || message === "null") {
+		endResponse(config.error404page)
+		return 
+    }
+    if (err === 405 || message === "null") {
+		endResponse(config.error405page)
+		return 
+    }
+    if (err === 414 || message === "null") {
+		endResponse(config.error414page)
+		return 
+    }
+    if (err === 431 || message === "null") {
+		endResponse(config.error431page)
+		return 
+    }
+    if (err === 500 || message === "null") {
+		endResponse(config.error500page)
+		return 
+    }
+    else{
+        writeContent('<center>')
+        writeContent(`<h1>${err} ${statusText}</h1>`)
+        writeContent(`<p>${message}</p>`)
+        endResponse('</center>')
+    }
+  }
+
+  function readFile () {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
         if (err) {
-          returnError(404, null)
+          returnError(404, null, null)
           return
         }
-        res.setHeader('Content-type', mime.getType(req.url))
+        sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
     } catch (err) {
-      returnError(500, null)
+      returnError(500, null, null)
+      error('Unknown error')
       throw new Error('A unknown error happend in user request! Please report this to our github')
     }
   };
+
   process.on('uncaughtException', function (err) {
-    returnError(500, null)
-    console.error('\x1b[31m [ERROR] An error handling in user request')
-    console.warn('\x1b[33m [WARN] Please report this bug to our github')
-    console.warn('\x1b[33m [WARN] ERROR:')
-    console.warn('\x1b[33m' + err + '\x1b[0m')
-    errorlog.error('[ERROR] An error handling in user request')
-    errorlog.warn('[WARN] Please report this bug to our github')
-    errorlog.warn('[WARN] ERROR:')
-    errorlog.warn(err)
+    returnError(500, null, null)
+    error('Error handling this user request!')
+    error('Please report this error to our github: https://github.com/andriy332/KinashServer/')
+    error(err)
+    warning('Do not forget to send full server log')
+    warning('And do not forget to send this details: ')
+    warning('Server version: ' + server_version)  
+    warning('Request url: ' + req.url)
+    warning('Request method: ' + req.method)
+    warning('authentication_url' + config.authentication_url)
+    warning('authentication_username' + config.authentication_username)
+    warning('authentication_realm' + config.authentication_realm)
+    warning('authentication_file' + config.authentication_file)
+    warning('max_url_length' + config.max_url_length)
+    warning('disallowcrawlers' + config.disallowcrawlers)
   })
-  log.log('[INFO] ' + '[' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
-  console.log('[INFO] ' + '\x1b[0m\x1b[32m [' + req.socket.remoteAddress + '] ' + Date() + ' ' + req.method + ' ' + req.url)
-  if (req.url === '/') {
+
+  info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
+
+  if(req.method ===! 'GET'){
+    returnError(405, null, null)
+  }
+
+  else if(req.url.length > 9999){
+    returnError(431, null, null)
+  }
+
+  else if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
         fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
           if (!err) {
-            res.writeHead(200, { 'Content-Type': 'text/html' })
+            sendHeader('Content-type', 'text/html')
             endResponse(data)
           } else {
-            returnError(404, null)
+            returnError(404, null, null)
           }
         })
       } else {
-        returnError(503, 'No index page')
+        returnError(500, null, null)
+        error('The index.html file is missing')
       }
     })
+  
   } else if (req.url === config.authentication_url) {
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
@@ -81,36 +161,38 @@ const server = http.createServer((req, res) => {
     if (login && password && login === auth.login && password === auth.password) {
       fs.readFile(config.authentication_file, 'utf8', function (err, data) {
         if (err) {
-          returnError(503, 'No authentication file found.')
-          console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication with but the authentication file doesnt exists \x1b[0m\x1b[32m')
+          returnError(500, null, null)
+          warning('User ' + req.socket.remoteAddress + ' passed the authentication')
+          error('Error: The authentication file is missing')
         }
-        res.writeHead(200, { 'Content-Type': 'text/html' })
+        sendHeader('Content-Type', 'text/html')
         endResponse(data)
-        console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' passed the authentication \x1b[0m\x1b[32m ')
+        warning('User ' + req.socket.remoteAddress + ' passed the authentication')
       })
       return
     }
     res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
-    returnError(401, null)
-    console.warn('\x1b[33m[WARN] User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
+    returnError(401, null, null)
+    warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
   } else if (req.url.length > config.max_url_length) {
-    returnError(414, null)
-  } else if (req.url === '/login.html') {
-    returnError(404, null)
+    returnError(414, null, null)
+  } else if (req.url === '/login.html' || req.url === '/login.html/') {
+    accessDenied('This page is protected.')
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
+      info('Returning default robots.txt page (because disallow crawlers is on in config.json)')
+      sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
     } else {
-      readfile()
+      readFile()
     }
-  } else if (req.url === '/login.html/') {
-    returnError(403, null)
   } else {
-    readfile()
+    readFile()
   }
 })
+
 server.listen(config.port, config.host, () => {
-  console.log('\x1b[0m\x1b[32m[INFO] Server started at http://' + config.host + ':' + config.port + '/')
+  //info() doesn't work here, so use console.log()
+  console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
 })

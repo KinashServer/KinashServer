@@ -1,34 +1,28 @@
 {
-  "name": "KinashServer",
-  "description": "A simple http server with some basic config",
-  "version": "1.5.1",
-  "scripts": {
-    "test": "standard && node app.js",
-    "start": "node app.js"
-  },
-  "dependencies": {
-    "fs": ">0.0.0",
-    "http": ">0.0.0",
-    "mime": ">2.5.0",
-    "standard": "^16.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/andriy332/KinashServer.git"
-  },
-  "standard": {
-    "ignore": [
-      "app.js"
-    ]
-  },
-  "keywords": [
-    "http",
-    "server",
-    "http-server"
-  ],
-  "author": "andriy332",
-  "bugs": {
-    "url": "https://github.com/andriy332/KinashServer/issues"
-  },
-  "homepage": "https://github.com/andriy332/KinashServer/"
+   "name":"KinashServer",
+   "description":"A simple http server with some basic config",
+   "version":"1.6.0",
+   "scripts":{
+      "test":"standard && node app.js",
+      "start":"node app.js"
+   },
+   "dependencies":{
+      "fs":">0.0.0",
+      "http":">0.0.0",
+      "mime":">2.5.0"
+   },
+   "repository":{
+      "type":"git",
+      "url":"https://github.com/andriy332/KinashServer.git"
+   },
+   "keywords":[
+      "http",
+      "server",
+      "http-server"
+   ],
+   "author":"andriy332",
+   "bugs":{
+      "url":"https://github.com/andriy332/KinashServer/issues"
+   },
+   "homepage":"https://github.com/andriy332/KinashServer/"
 }

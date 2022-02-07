@@ -1,3 +1,30 @@
+1.6:
+Added const server_version = '1.6'
+Added status(code)
+Added sendHeader(header, value)
+Added info(content)
+Added warning(content)
+Added error(content)
+Added accessDenied(reason) 
+Added request method check 
+Added req.url.length > 9999 check
+Fixed a bug with returnError()
+Rewritten returnError(err, message, statusText)
+Updated process.on('uncaughtException'...)
+Updated logging
+Updated console stylistics
+Updated error logging
+Updated authentication
+Updated default values in config.json
+readfile() is now readFile()
+Used `returnError(503, 'No index page')
+Instand of `returnError(500, null, null)`
+Removed unused check
+Removed max_url_length_tip_do_not_change from config
+Removed error500noauthpage from config
+Removed errornoindexpage from config
+Removed standardjs from dependencies
+
 1.5.1:
 Fixed some files
 
@@ -16,7 +43,7 @@ Fixed debug.cmd
 
 1.4:
 
-Tabulation fix
+Fixed tabulation
 Added Disallow crawlers functionality
 Moved read-file code to readfile()
 Used 
@@ -26,5 +53,4 @@ instand of
 console.error('\x1b[31m [ERROR] try { fail (148 line)')`
 Updated error pages
 Added package.json
-Fixed code style
-New index.html
+Updated index.html
