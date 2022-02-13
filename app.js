@@ -3,10 +3,8 @@ const fs = require('fs')
 const mime = require('mime')
 const config = require('./configs/config.json')
 const folder = './public_html/'
-const server_version = '1.6.1'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
-
 
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
@@ -38,13 +36,11 @@ const server = http.createServer((req, res) => {
   function warning (content) {
     console.log('\x1b[0m\x1b[33m WARN >> ' + content)
     log.log('WARN >> ' + content)
-    errorlog.log('WARN >> ' + content)
   }
 
   function error (content) {
     console.log('\x1b[0m\x1b[31m ERROR >> ' + content)
     log.log('ERROR >> ' + content)
-    errorlog.log('WARN >> ' + content)
   }
 
   function returnError (err, message, statusText) {
