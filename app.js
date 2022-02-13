@@ -43,12 +43,6 @@ const server = http.createServer((req, res) => {
     log.log('ERROR >> ' + content)
   }
 
-  function accessDenied (reason) {
-    warning('Denied user request from ' + req.socket.remoteAddress + ' to ' + req.url)
-    warning('Reason: ' + reason)
-    returnError(403, null, null)
-  }
-
   function returnError (err, message, statusText) {
     status(err)
     sendHeader('Content-Type', 'text/html')
@@ -92,6 +86,14 @@ const server = http.createServer((req, res) => {
     }
   }
 
+  function accessDenied (reason) {
+    warning('Denied user request from ' + req.socket.remoteAddress + ' to ' + req.url)
+    warning('Reason: ' + reason)
+    returnError(403, null, null)
+  }
+
+	
+	
   function readFile () {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
