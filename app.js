@@ -5,6 +5,7 @@ const config = require('./configs/config.json')
 const folder = './public_html/'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
+const server_version = '1.6.1' 
 
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
@@ -48,35 +49,35 @@ const server = http.createServer((req, res) => {
     sendHeader('Content-Type', 'text/html')
     if (err === 400 || message === "null") {
 		endResponse(config.error400page)
-		return 
+		return
     }
     if (err === 401 || message === "null") {
 		endResponse(config.error401page)
-		return 
+		return
     }
     if (err === 403 || message === "null") {
 		endResponse(config.error403page)
-		return 
+		return
     }
     if (err === 404 || message === "null") {
 		endResponse(config.error404page)
-		return 
+		return
     }
     if (err === 405 || message === "null") {
 		endResponse(config.error405page)
-		return 
+		return
     }
     if (err === 414 || message === "null") {
 		endResponse(config.error414page)
-		return 
+		return
     }
     if (err === 431 || message === "null") {
 		endResponse(config.error431page)
-		return 
+		return
     }
     if (err === 500 || message === "null") {
 		endResponse(config.error500page)
-		return 
+		return
     }
     else{
         writeContent('<center>')
@@ -92,8 +93,6 @@ const server = http.createServer((req, res) => {
     returnError(403, null, null)
   }
 
-	
-	
   function readFile () {
     try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
@@ -147,7 +146,8 @@ const server = http.createServer((req, res) => {
             sendHeader('Content-type', 'text/html')
             endResponse(data)
           } else {
-            returnError(404, null, null)
+	    returnError(500, null, null)
+            error('The index.html file is missing')
           }
         })
       } else {
@@ -155,7 +155,7 @@ const server = http.createServer((req, res) => {
         error('The index.html file is missing')
       }
     })
-  
+
   } else if (req.url === config.authentication_url) {
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
@@ -176,11 +176,17 @@ const server = http.createServer((req, res) => {
     res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
     returnError(401, null, null)
     warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
-  } else if (req.url.length > config.max_url_length) {
+  }
+
+  else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
-  } else if (req.url === '/login.html' || req.url === '/login.html/') {
+  }
+
+  else if (req.url === '/login.html' || req.url === '/login.html/') {
     accessDenied('This page is protected.')
-  } else if (req.url === '/robots.txt') {
+  } 
+
+  else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
       info('Returning default robots.txt page (because disallow crawlers is on in config.json)')
       sendHeader('Content-type', 'text/plain')
@@ -189,10 +195,11 @@ const server = http.createServer((req, res) => {
     } else {
       readFile()
     }
-  } else {
+ }
+
+  else {
     readFile()
   }
-})
 
 server.listen(config.port, config.host, () => {
   //info() doesn't work here, so use console.log()
