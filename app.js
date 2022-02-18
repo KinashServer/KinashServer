@@ -143,6 +143,14 @@ const server = http.createServer((req, res) => {
     returnError(431, null, null)
   }
 
+  else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
+   if(config.enablebasicsecuritychecks === "true"){
+	returnError(400, null, null)
+   	warning(req.socket.remoteAddress + ' tried to use exploit.')
+   }
+   else { readFile() }
+  }
+
   else if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
