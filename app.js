@@ -7,7 +7,6 @@ const server_version = '1.6.1'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 
-
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder, { recursive: true })
 }
@@ -110,8 +109,8 @@ const server = http.createServer((req, res) => {
       })
     } catch (err) {
       returnError(500, null, null)
-      error('Unknown error')
-      throw new Error('A unknown error happend in user request! Please report this to our github')
+      error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
+      throw new Error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
     }
   };
 
@@ -125,12 +124,11 @@ const server = http.createServer((req, res) => {
     warning('Server version: ' + server_version)  
     warning('Request url: ' + req.url)
     warning('Request method: ' + req.method)
-    warning('authentication_url' + config.authentication_url)
-    warning('authentication_username' + config.authentication_username)
-    warning('authentication_realm' + config.authentication_realm)
-    warning('authentication_file' + config.authentication_file)
-    warning('max_url_length' + config.max_url_length)
-    warning('disallowcrawlers' + config.disallowcrawlers)
+    warning('authentication_realm: ' + config.authentication_realm)
+    warning('authentication_file: ' + config.authentication_file)
+    warning('max_url_length: ' + config.max_url_length)
+    warning('disallowcrawlers: ' + config.disallowcrawlers)
+    warning('enablebasicsecuritychecks: ' + config.enablebasicsecuritychecks)
   })
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
