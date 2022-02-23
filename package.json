@@ -7,8 +7,6 @@
       "start":"node app.js"
    },
    "dependencies":{
-      "fs":">0.0.0",
-      "http":">0.0.0",
       "mime":">2.5.0"
    },
    "repository":{
