@@ -3,6 +3,7 @@ KinashServer is simple node js http server with basic config
 <h2>Launch</h2>
 <p>To launch use this commands: 
 npm install kinashserver
+<br>
 "C:\users\%username%\node_modules\kinashserver\kinashserver.bat"</p>
 <h2>Download</h2>
 <a href="https://github.com/andriy332/KinashServer/releases/">Click here to download</a>
