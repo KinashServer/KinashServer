@@ -28,7 +28,7 @@ const server = http.createServer((req, res) => {
     if (err === 405 && message === null) { endResponse(config.error405page); return }
     if (err === 414 && message === null) { endResponse(config.error414page); return }
     if (err === 431 && message === null) { endResponse(config.error431page); return }
-    if (err === 500 && message === null) { endResponse(config.error500page); return }
+    if (err === 500 && message === null) { endResponse(config.error500page); }
     else { endResponse(`<html lang="en"><head><title>${err} ${statusText}</title></head><body><center><h1>${err} ${statusText}</h1><p>${message}</p></center></body></html>`) }
   }
 	
@@ -79,7 +79,7 @@ const server = http.createServer((req, res) => {
   else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
    if(config.enablebasicsecuritychecks === "true"){
 	returnError(400, null, null)
-   	warning(req.socket.remoteAddress + ' tried to use exploit.')
+   	warning(req.socket.remoteAddress + ' tried to use exploit')
    }
    else { readFile() }
   }
