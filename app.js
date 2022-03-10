@@ -118,7 +118,7 @@ const server = http.createServer((req, res) => {
       })
       return
     }
-    res.setHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
+    sendHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
     returnError(401, null, null)
     warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
   } else if (req.url.length > config.max_url_length) {
