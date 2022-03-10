@@ -49,38 +49,14 @@ const server = http.createServer((req, res) => {
   function returnError (err, message, statusText) {
     status(err)
     sendHeader('Content-Type', 'text/html')
-    if (err === 400 || message === "null") {
-		endResponse(config.error400page)
-		return 
-    }
-    if (err === 401 || message === "null") {
-		endResponse(config.error401page)
-		return 
-    }
-    if (err === 403 || message === "null") {
-		endResponse(config.error403page)
-		return 
-    }
-    if (err === 404 || message === "null") {
-		endResponse(config.error404page)
-		return 
-    }
-    if (err === 405 || message === "null") {
-		endResponse(config.error405page)
-		return 
-    }
-    if (err === 414 || message === "null") {
-		endResponse(config.error414page)
-		return 
-    }
-    if (err === 431 || message === "null") {
-		endResponse(config.error431page)
-		return 
-    }
-    if (err === 500 || message === "null") {
-		endResponse(config.error500page)
-		return 
-    }
+    if (err === 400 && message === null) { endResponse(config.error400page); return }
+    if (err === 401 && message === null) { endResponse(config.error401page); return }
+    if (err === 403 && message === null) { endResponse(config.error403page); return }
+    if (err === 404 && message === null) { endResponse(config.error404page); return }
+    if (err === 405 && message === null) { endResponse(config.error405page); return }
+    if (err === 414 && message === null) { endResponse(config.error414page); return }
+    if (err === 431 && message === null) { endResponse(config.error431page); return }
+    if (err === 500 && message === null) { endResponse(config.error500page); return }
     else{
 	endResponse(`
 	<html lang="en">
