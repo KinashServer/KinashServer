@@ -97,13 +97,6 @@ const server = http.createServer((req, res) => {
 	`)
     }
   }
-
-  function accessDenied (reason) {
-    warning('Denied user request from ' + req.socket.remoteAddress + ' to ' + req.url)
-    warning('Reason: ' + reason)
-    returnError(403, null, null)
-  }
-
 	
 	
   function readFile () {
@@ -199,7 +192,7 @@ const server = http.createServer((req, res) => {
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
   } else if (req.url === '/login.html' || req.url === '/login.html/') {
-    accessDenied('This page is protected.')
+    returnError(403, null, null)
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
       info('Returning default robots.txt page (because disallow crawlers is on in config.json)')
