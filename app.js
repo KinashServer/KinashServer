@@ -98,6 +98,7 @@ const server = http.createServer((req, res) => {
     })
   
   } else if (req.url === config.authentication_url) {
+   if(config.authentication_enabled == true){
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
@@ -117,6 +118,7 @@ const server = http.createServer((req, res) => {
     sendHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
     returnError(401, null, null)
     warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
+   } else { readFile() }
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
   } else if (req.url === '/login.html' || req.url === '/login.html/') {
