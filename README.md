@@ -1,7 +1,8 @@
 <h1>KinashServer</h1>
-KinashServer is simple node js http server with basic config
+KinashServer is simple node.JS HTTP server with basic config
 <h2>Launch</h2>
-<p>To launch use this commands: 
+<p>To launch, use these commands: 
+<br>
 <br>
 npm install kinashserver
 <br>
