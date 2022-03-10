@@ -3,7 +3,7 @@ const fs = require('fs')
 const mime = require('mime')
 const config = require('./configs/config.json')
 const folder = './public_html/'
-const server_version = '1.7.3'
+const server_version = '1.8.0'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 
@@ -35,18 +35,13 @@ const server = http.createServer((req, res) => {
 	
   function readFile () {
     try {
-      if(pathmodule.resolve(req.url).startsWith(__dirname + '/public_html')){
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
-        if (err) {
-          returnError(404, null, null)
-          return
-        }
         sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
-      }
     } catch (err) {
-      throw new Error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
+        returnError(404, null, null)
+        return
     }
   };
 
@@ -68,7 +63,6 @@ const server = http.createServer((req, res) => {
   })
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
-  warning('You are running beta a version of KinashServer')
 
   if(req.url.length > 10000){
     returnError(431, null, null)
