@@ -10,38 +10,13 @@ const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt
 
 const server = http.createServer((req, res) => {
 
-  function status (code) {
-    res.statusCode = code
-  }
-
-  function sendHeader (header, value) {
-    res.setHeader(header, value)
-  }
-
-  function writeContent (content) {
-    res.write(content)
-  }
-
-  function endResponse (content) {
-    res.end(content)
-  }
-
-  function info (content) {
-    console.log('\x1b[0m\x1b[32m INFO >> ' + content)
-    log.log('INFO >> ' + content)
-  }
-
-  function warning (content) {
-    console.log('\x1b[0m\x1b[33m WARN >> ' + content)
-    log.log('WARN >> ' + content)
-    errorlog.log('WARN >> ' + content)
-  }
-
-  function error (content) {
-    console.log('\x1b[0m\x1b[31m ERROR >> ' + content)
-    log.log('ERROR >> ' + content)
-    errorlog.log('ERROR >> ' + content)
-  }
+  function status (code) { res.statusCode = code }
+  function sendHeader (header, value) { res.setHeader(header, value) }
+  function writeContent (content) { res.write(content) }
+  function endResponse (content) { res.end(content) }
+  function info (content) { console.log('\x1b[0m\x1b[32m INFO >> ' + content); log.log('INFO >> ' + content) }
+  function warning (content) { console.log('\x1b[0m\x1b[33m WARN >> ' + content); log.log('WARN >> ' + content); errorlog.log('WARN >> ' + content) }
+  function error (content) { console.log('\x1b[0m\x1b[31m ERROR >> ' + content); log.log('ERROR >> ' + content); errorlog.log('ERROR >> ' + content) }
 
   function returnError (err, message, statusText) {
     status(err)
@@ -54,21 +29,7 @@ const server = http.createServer((req, res) => {
     if (err === 414 && message === null) { endResponse(config.error414page); return }
     if (err === 431 && message === null) { endResponse(config.error431page); return }
     if (err === 500 && message === null) { endResponse(config.error500page); return }
-    else{
-	endResponse(`
-	<html lang="en">
-	  <head>
-	  <title>${err} ${statusText}</title>
-	  </head>
-	  <body>
-	    <center>
-	      <h1>${err} ${statusText}</h1>
-	      <p>${message}</p>
-	    </center>
-	  </body>
-	</html>
-	`)
-    }
+    else { endResponse(`<html lang="en"><head><title>${err} ${statusText}</title></head><body><center><h1>${err} ${statusText}</h1><p>${message}</p></center></body></html>`) }
   }
 	
 	
@@ -83,8 +44,6 @@ const server = http.createServer((req, res) => {
         endResponse(data)
       })
     } catch (err) {
-      returnError(500, null, null)
-      error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
       throw new Error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
     }
   };
