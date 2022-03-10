@@ -35,33 +35,19 @@ const server = http.createServer((req, res) => {
 	
   function readFile () {
     try {
-     if (pathmodule.resolve(req.url).startsWith(__dirname + '/public_html')) 
-      fs.readFile('./public_html' + req.url + '.redirect', 'utf8', (err, data) => {
-        if (err) { readfile2() }
-        sendHeader('Content-type', 'text/html')
-	sendHeader('Location', data)
-        returnError(302, 'Found', 'This url has been moved')
-	return
+      fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
+        if (err) {
+          returnError(404, null, null)
+          return
+        }
+        sendHeader('Content-type', mime.getType(req.url))
+        endResponse(data)
       })
-    }
     } catch (err) {
       throw new Error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
     }
   };
 
-  function readfile2(){
-    try {
-     if (pathmodule.resolve(req.url).startsWith(__dirname + '/public_html')) 
-      fs.readFile('./public_html' + req.url, 'utf8', (data) => {
-        sendHeader('Content-type', mime.getType(req.url))
-        endResponse(data)
-      })
-    }
-    } catch (err) {
-      throw new Error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
-    }
-  }
-	
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
     error('Error handling this user request!')
