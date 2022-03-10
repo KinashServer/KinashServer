@@ -66,7 +66,7 @@ const server = http.createServer((req, res) => {
   })
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
-  warning('You are running beta version of KinashServer')
+  warning('You are running beta a version of KinashServer')
 
   if(req.method ===! 'GET'){
     returnError(405, null, null)
