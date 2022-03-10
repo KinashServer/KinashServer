@@ -1,6 +1,3 @@
-//Changelist:
-//Fixed a bug that errors shows as warnings in logs
-
 const http = require('http')
 const fs = require('fs')
 const mime = require('mime')
