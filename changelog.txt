@@ -1,5 +1,4 @@
 1.6:
-Added const server_version = '1.6'
 Added status(code)
 Added sendHeader(header, value)
 Added info(content)
@@ -9,13 +8,12 @@ Added accessDenied(reason)
 Added request method check 
 Added req.url.length > 9999 check
 Fixed a bug with returnError()
+Fixed console stylistics
 Rewritten returnError(err, message, statusText)
 Updated process.on('uncaughtException'...)
 Updated logging
-Updated console stylistics
-Updated error logging
 Updated authentication
-Updated default values in config.json
+Updated config.json
 readfile() is now readFile()
 Used `returnError(503, 'No index page')
 Instand of `returnError(500, null, null)`
