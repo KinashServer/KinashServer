@@ -73,7 +73,7 @@ const server = http.createServer((req, res) => {
   }
 
   else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
-   if(config.enablebasicsecuritychecks === "true"){
+   if(config.enablebasicsecuritychecks = true){
 	returnError(400, null, null)
    	warning(req.socket.remoteAddress + ' tried to use exploit')
    }
@@ -98,7 +98,7 @@ const server = http.createServer((req, res) => {
     })
   
   } else if (req.url === config.authentication_url) {
-   if(config.authentication_enabled == true){
+   if(config.authentication_enabled = true){
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
@@ -107,7 +107,7 @@ const server = http.createServer((req, res) => {
         if (err) {
           returnError(500, null, null)
           warning('User ' + req.socket.remoteAddress + ' passed the authentication')
-          error('Error: The authentication file is missing')
+          error('The authentication file is missing')
         }
         sendHeader('Content-Type', 'text/html')
         endResponse(data)
