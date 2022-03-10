@@ -134,9 +134,7 @@ const server = http.createServer((req, res) => {
     } else {
       readFile()
     }
-  } else {
-    readFile()
-  }
+  } else { readFile() }
 })
 
 server.listen(config.port, config.host, () => {
