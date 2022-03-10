@@ -82,10 +82,19 @@ const server = http.createServer((req, res) => {
 		return 
     }
     else{
-        writeContent('<center>')
-        writeContent(`<h1>${err} ${statusText}</h1>`)
-        writeContent(`<p>${message}</p>`)
-        endResponse('</center>')
+	endResponse(`
+	<html lang="en">
+	  <head>
+	  <title>${err} ${statusText}</title>
+	  </head>
+	  <body>
+	    <center>
+	      <h1>${err} ${statusText}</h1>
+	      <p>${message}</p>
+	    </center>
+	  </body>
+	</html>
+	`)
     }
   }
 
