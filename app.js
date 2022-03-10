@@ -7,9 +7,6 @@ const server_version = '1.7.3'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 
-if (!fs.existsSync(folder)) {
-  fs.mkdirSync(folder, { recursive: true })
-}
 
 const server = http.createServer((req, res) => {
 
