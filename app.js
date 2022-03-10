@@ -35,6 +35,7 @@ const server = http.createServer((req, res) => {
 	
   function readFile () {
     try {
+      if(pathmodule.resolve(req.url).startsWith(__dirname + '/public_html')){
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
         if (err) {
           returnError(404, null, null)
@@ -43,6 +44,7 @@ const server = http.createServer((req, res) => {
         sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
+      }
     } catch (err) {
       throw new Error('A unknown error happend in this user request! Please report this to our github: https://github.com/andriy332/KinashServer/')
     }
