@@ -1,3 +1,6 @@
+//Changelist:
+//Fixed a bug that errors shows as warnings in logs
+
 const http = require('http')
 const fs = require('fs')
 const mime = require('mime')
@@ -43,7 +46,7 @@ const server = http.createServer((req, res) => {
   function error (content) {
     console.log('\x1b[0m\x1b[31m ERROR >> ' + content)
     log.log('ERROR >> ' + content)
-    errorlog.log('WARN >> ' + content)
+    errorlog.log('ERROR >> ' + content)
   }
 
   function returnError (err, message, statusText) {
