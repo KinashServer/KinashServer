@@ -71,48 +71,48 @@ const server = http.createServer((req, res) => {
   }
 
   else if(req.url === proxyconfig.proxy1url) {
-	proxy.on('error', function (err, req, res) {
+	proxy.on('error', function (err, req1, res1) {
 	   status(502)
-           res.end(proxyconfig.badgatewayerrorpage);
+           res1.end(proxyconfig.badgatewayerrorpage);
 	})
  
-  	proxy.web(req, res, { target: proxyconfig.proxy1target });
+  	proxy.web(req1, re1s, { target: proxyconfig.proxy1target });
   }
 	
   else if(req.url === proxyconfig.proxy2url) {
-	proxy.on('error', function (err, req, res) {
+	proxy.on('error', function (req2, res2) {
 	   status(502)
-           res.end(proxyconfig.badgatewayerrorpage);
+           res2.end(proxyconfig.badgatewayerrorpage);
 	})
  
-  	proxy.web(req, res, { target: proxyconfig.proxy2target });
+  	proxy.web(req2, res2, { target: proxyconfig.proxy2target });
   }
 	
   else if(req.url === proxyconfig.proxy3url) {
-	proxy.on('error', function (err, req, res) {
+	proxy.on('error', function (req3, res3) {
 	   status(502)
-           res.end(proxyconfig.badgatewayerrorpage);
+           res3.end(proxyconfig.badgatewayerrorpage);
 	})
  
-  	proxy.web(req, res, { target: proxyconfig.proxy3target });
+  	proxy.web(req3, res3, { target: proxyconfig.proxy3target });
   }
 	
   else if(req.url === proxyconfig.proxy4url) {
-	proxy.on('error', function (err, req, res) {
+	proxy.on('error', function (req3, res3) {
 	   status(502)
-           res.end(proxyconfig.badgatewayerrorpage);
+           res4.end(proxyconfig.badgatewayerrorpage);
 	})
  
-  	proxy.web(req, res, { target: proxyconfig.proxy4target });
+  	proxy.web(req4, res4, { target: proxyconfig.proxy4target });
   }
   
   else if(req.url === proxyconfig.proxy5url) {
-	proxy.on('error', function (err, req, res) {
+	proxy.on('error', function (req5, res5) {
 	   status(502)
-           res.end(proxyconfig.badgatewayerrorpage);
+           res5.end(proxyconfig.badgatewayerrorpage);
 	})
  
-  	proxy.web(req, res, { target: proxyconfig.proxy5target });
+  	proxy.web(req5, res5, { target: proxyconfig.proxy5target });
   }
  else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
    if(config.enablebasicsecuritychecks = true){
