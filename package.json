@@ -7,7 +7,7 @@
       "start":"node app.js"
    },
    "dependencies":{
-      "mime":"2.4.0"
+      "mime":"2.0.0"
    },
    "repository":{
       "type":"git",
