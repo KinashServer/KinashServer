@@ -7,7 +7,8 @@
       "start":"node app.js"
    },
    "dependencies": {
-      "mime":">2.5.0"
+      "mime": ">2.5.0",
+      "http-ratelimit": ">0.2.3"
    },
    "repository": {
       "type":"git",
