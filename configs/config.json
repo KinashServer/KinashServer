@@ -1,6 +1,7 @@
 {
 	"host" : "localhost",
 	"port" : "80",
+	"authentication_enabled": false,
 	"authentication_url" : "/authentication",
 	"authentication_username" : "admin",
 	"authentication_password" : "admin",
