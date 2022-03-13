@@ -1,7 +1,9 @@
 const http = require('http')
+const proxy = require('http-proxy');
 const fs = require('fs')
 const mime = require('mime')
 const config = require('./configs/config.json')
+const proxyconfig = require('./configs/proxy.json')
 const folder = './public_html/'
 const server_version = '1.8.0'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
