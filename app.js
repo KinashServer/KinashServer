@@ -121,7 +121,6 @@ const server = http.createServer((req, res) => {
     returnError(403, null, null)
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers === 'true') {
-      info('Returning default robots.txt page (because disallow crawlers is on in config.json)')
       sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
