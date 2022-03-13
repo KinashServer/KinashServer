@@ -70,51 +70,19 @@ const server = http.createServer((req, res) => {
     returnError(431, null, null)
   }
 
-  else if(req.url === proxyconfig.proxy1url) {
-	proxy.on('error', function (err, req1, res1) {
-	   status(502)
-           res1.end(proxyconfig.badgatewayerrorpage);
-	})
- 
-  	proxy.web(req1, re1s, { target: proxyconfig.proxy1target });
-  }
-	
-  else if(req.url === proxyconfig.proxy2url) {
-	proxy.on('error', function (req2, res2) {
-	   status(502)
-           res2.end(proxyconfig.badgatewayerrorpage);
-	})
- 
-  	proxy.web(req2, res2, { target: proxyconfig.proxy2target });
-  }
-	
-  else if(req.url === proxyconfig.proxy3url) {
-	proxy.on('error', function (req3, res3) {
-	   status(502)
-           res3.end(proxyconfig.badgatewayerrorpage);
-	})
- 
-  	proxy.web(req3, res3, { target: proxyconfig.proxy3target });
-  }
-	
-  else if(req.url === proxyconfig.proxy4url) {
-	proxy.on('error', function (req3, res3) {
-	   status(502)
-           res4.end(proxyconfig.badgatewayerrorpage);
-	})
- 
-  	proxy.web(req4, res4, { target: proxyconfig.proxy4target });
+  else if(req.url === proxyconfig.proxy1url) { 
+	proxy.on('error', function (err, req, res) {
+  res.writeHead(500, {
+    'Content-Type': 'text/plain'
+  });
+  
+  res.end('Something went wrong. And we are reporting a custom error message.');
+  return;
+});
+	proxy.web(req, res, { target: proxyconfig.proxy1target }); 
   }
   
-  else if(req.url === proxyconfig.proxy5url) {
-	proxy.on('error', function (req5, res5) {
-	   status(502)
-           res5.end(proxyconfig.badgatewayerrorpage);
-	})
- 
-  	proxy.web(req5, res5, { target: proxyconfig.proxy5target });
-  }
- else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
+  else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
    if(config.enablebasicsecuritychecks = true){
 	returnError(400, null, null)
    	warning(req.socket.remoteAddress + ' tried to use exploit')
@@ -122,7 +90,7 @@ const server = http.createServer((req, res) => {
    else { readFile() }
   }
 
-  else if (req.url === '/') {
+   else if (req.url === '/') {
     fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
       if (!err) {
         fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
