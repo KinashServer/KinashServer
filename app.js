@@ -139,7 +139,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(config.port, config.host, () => {
   //info() doesn't work here, so use console.log()
-  console.log('\x1b[0m\x1b[32m INFO >> Loading')
+  console.log('\x1b[0m\x1b[32m INFO >> Loading server')
   rateLimit.init(2, true);
   console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
 })
