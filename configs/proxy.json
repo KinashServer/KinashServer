@@ -1,0 +1,14 @@
+{
+  "badgatewayerrorpage": "KinashServer - Bad gateway",
+  "comment": "To disable proxy change the proxy url to null",
+  "proxy1url": "/proxy1",
+  "proxy1target": "http://172.0.0.1:8888",
+  "proxy2url": "/proxy2",
+  "proxy2target": "http://172.0.0.1:8888",
+  "proxy3url": "/proxy3",
+  "proxy3target": "http://172.0.0.1:8888",
+  "proxy4url": "/proxy4",
+  "proxy4target": "http://172.0.0.1:8888",
+  "proxy5url": "/proxy5",
+  "proxy5target": "http://172.0.0.1:8888",
+}
