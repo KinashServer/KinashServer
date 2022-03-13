@@ -79,7 +79,7 @@ const server = http.createServer((req, res) => {
   	proxy.web(req, res, { target: proxyconfig.proxy1target });
   }
 	
-  else if(req.url === proxyconfig.proxy2rl) {
+  else if(req.url === proxyconfig.proxy2url) {
 	proxy.on('error', function (err, req, res) {
 	   status(502)
            res.end(proxyconfig.badgatewayerrorpage);
