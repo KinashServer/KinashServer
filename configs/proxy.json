@@ -10,5 +10,5 @@
   "proxy4url": "/proxy4",
   "proxy4target": "http://172.0.0.1:8888",
   "proxy5url": "/proxy5",
-  "proxy5target": "http://172.0.0.1:8888",
+  "proxy5target": "http://172.0.0.1:8888"
 }
