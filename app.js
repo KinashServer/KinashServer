@@ -1,5 +1,5 @@
 const http = require('http')
-const proxy = require('http-proxy');
+const proxylib = require('http-proxy');
 const fs = require('fs')
 const mime = require('mime')
 const config = require('./configs/config.json')
@@ -8,7 +8,7 @@ const folder = './public_html/'
 const server_version = '1.8.0'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
-
+const proxy = proxylib.createProxyServer();
 
 const server = http.createServer((req, res) => {
 
@@ -70,7 +70,51 @@ const server = http.createServer((req, res) => {
     returnError(431, null, null)
   }
 
-  else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
+  else if(req.url === proxyconfig.proxy1url) {
+	proxy.on('error', function (err, req, res) {
+	   status(502)
+           res.end(proxyconfig.badgatewayerrorpage);
+	})
+ 
+  	proxy.web(req, res, { target: proxyconfig.proxy1target });
+  }
+	
+  else if(req.url === proxyconfig.proxy2rl) {
+	proxy.on('error', function (err, req, res) {
+	   status(502)
+           res.end(proxyconfig.badgatewayerrorpage);
+	})
+ 
+  	proxy.web(req, res, { target: proxyconfig.proxy2target });
+  }
+	
+  else if(req.url === proxyconfig.proxy3url) {
+	proxy.on('error', function (err, req, res) {
+	   status(502)
+           res.end(proxyconfig.badgatewayerrorpage);
+	})
+ 
+  	proxy.web(req, res, { target: proxyconfig.proxy3target });
+  }
+	
+  else if(req.url === proxyconfig.proxy4url) {
+	proxy.on('error', function (err, req, res) {
+	   status(502)
+           res.end(proxyconfig.badgatewayerrorpage);
+	})
+ 
+  	proxy.web(req, res, { target: proxyconfig.proxy4target });
+  }
+  
+  else if(req.url === proxyconfig.proxy5url) {
+	proxy.on('error', function (err, req, res) {
+	   status(502)
+           res.end(proxyconfig.badgatewayerrorpage);
+	})
+ 
+  	proxy.web(req, res, { target: proxyconfig.proxy5target });
+  }
+ else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
    if(config.enablebasicsecuritychecks = true){
 	returnError(400, null, null)
    	warning(req.socket.remoteAddress + ' tried to use exploit')
