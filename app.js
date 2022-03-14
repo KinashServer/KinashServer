@@ -23,12 +23,12 @@ const server = http.createServer((req, res) => {
     status(err)
     sendHeader('Content-Type', 'text/html')
     if (err === 400 && message === null) { endResponse(config.error400page); return }
-    if (err === 429 && message === null) { endResponse('Too many requests'); return }
     if (err === 401 && message === null) { endResponse(config.error401page); return }
     if (err === 403 && message === null) { endResponse(config.error403page); return }
     if (err === 404 && message === null) { endResponse(config.error404page); return }
     if (err === 405 && message === null) { endResponse(config.error405page); return }
     if (err === 414 && message === null) { endResponse(config.error414page); return }
+    if (err === 429 && message === null) { endResponse(config.error429page); return }
     if (err === 431 && message === null) { endResponse(config.error431page); return }
     if (err === 500 && message === null) { endResponse(config.error500page); }
     else { endResponse(`<html lang="en"><head><title>${err} ${statusText}</title></head><body><center><h1>${err} ${statusText}</h1><p>${message}</p></center></body></html>`) }
@@ -71,7 +71,7 @@ const server = http.createServer((req, res) => {
 
   if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) === true) {
         returnError(429, null, null)
-		return;
+	return;
    }
 
   else if(req.url.length > 10000){
