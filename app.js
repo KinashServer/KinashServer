@@ -2,9 +2,9 @@ const http = require('http')
 const proxylib = require('http-proxy');
 const fs = require('fs')
 const mime = require('mime')
+const rateLimit = require("http-ratelimit")
 const config = require('./configs/config.json')
 const proxyconfig = require('./configs/proxy.json')
-const folder = './public_html/'
 const server_version = '1.8.0'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
@@ -29,6 +29,7 @@ const server = http.createServer((req, res) => {
     if (err === 404 && message === null) { endResponse(config.error404page); return }
     if (err === 405 && message === null) { endResponse(config.error405page); return }
     if (err === 414 && message === null) { endResponse(config.error414page); return }
+    if (err === 429 && message === null) { endResponse(config.error429page); return }
     if (err === 431 && message === null) { endResponse(config.error431page); return }
     if (err === 500 && message === null) { endResponse(config.error500page); }
     else { endResponse(`<html lang="en"><head><title>${err} ${statusText}</title></head><body><center><h1>${err} ${statusText}</h1><p>${message}</p></center></body></html>`) }
@@ -36,16 +37,18 @@ const server = http.createServer((req, res) => {
 	
 	
   function readFile () {
-    try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
-        sendHeader('Content-type', mime.getType(req.url))
+        if (err) {
+	  returnError(404, null, null)
+	  return;
+	}
+	sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
-    } catch (err) {
-        returnError(404, null, null)
-        return
-    }
   };
+
+  rateLimit.inboundRequest(req)
+ 
 
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
@@ -88,6 +91,11 @@ const server = http.createServer((req, res) => {
    	warning(req.socket.remoteAddress + ' tried to use exploit')
    }
    else { readFile() }
+    
+   
+  else if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) === true) {
+        returnError(429, null, null)
+	return;
   }
 
    else if (req.url === '/') {
@@ -105,8 +113,19 @@ const server = http.createServer((req, res) => {
         returnError(500, null, null)
         error('The index.html file is missing')
       }
-    })
-  
+  })
+  }
+
+  else if(req.url.length > 10000){
+    returnError(431, null, null)
+  }
+
+  else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
+   if(config.enablebasicsecuritychecks = true){
+	returnError(400, null, null)
+   	warning(req.socket.remoteAddress + ' tried to use exploit')
+   }
+   else { readFile() }
   } else if (req.url === config.authentication_url) {
    if(config.authentication_enabled = true){
     const auth = { login: config.authentication_username, password: config.authentication_password }
@@ -146,5 +165,12 @@ const server = http.createServer((req, res) => {
 
 server.listen(config.port, config.host, () => {
   //info() doesn't work here, so use console.log()
-  console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
+  console.log('\x1b[0m\x1b[32m INFO >> Loading server')
+  rateLimit.init(config.ratelimit_time, true);
+  if(config.port === "80"){
+  	console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + '/')
+  }
+  else{
+        console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
+  }
 })
