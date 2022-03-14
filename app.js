@@ -23,6 +23,7 @@ const server = http.createServer((req, res) => {
     status(err)
     sendHeader('Content-Type', 'text/html')
     if (err === 400 && message === null) { endResponse(config.error400page); return }
+    if (err === 429 && message === null) { endResponse('Too many requests'); return }
     if (err === 401 && message === null) { endResponse(config.error401page); return }
     if (err === 403 && message === null) { endResponse(config.error403page); return }
     if (err === 404 && message === null) { endResponse(config.error404page); return }
@@ -48,9 +49,6 @@ const server = http.createServer((req, res) => {
 
   rateLimit.inboundRequest(req)
  
-  if(rateLimit.isRateLimited(req, 20) === true) {
-        returnError(429, null, null)
-   }
 
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
@@ -71,7 +69,12 @@ const server = http.createServer((req, res) => {
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
 
-  if(req.url.length > 10000){
+  if(rateLimit.isRateLimited(req, 20) === true) {
+        returnError(429, null, null)
+		return;
+   }
+
+  else if(req.url.length > 10000){
     returnError(431, null, null)
   }
 
