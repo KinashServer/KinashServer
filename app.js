@@ -83,25 +83,6 @@ const server = http.createServer((req, res) => {
    	warning(req.socket.remoteAddress + ' tried to use exploit')
    }
    else { readFile() }
-  }
-
-  else if (req.url === '/') {
-    fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
-      if (!err) {
-        fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
-          if (!err) {
-            sendHeader('Content-type', 'text/html')
-            endResponse(data)
-          } else {
-            returnError(404, null, null)
-          }
-        })
-      } else {
-        returnError(500, null, null)
-        error('The index.html file is missing')
-      }
-    })
-  
   } else if (req.url === config.authentication_url) {
    if(config.authentication_enabled = true){
     const auth = { login: config.authentication_username, password: config.authentication_password }
