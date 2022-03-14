@@ -17,5 +17,8 @@
 	"error431page": "<html><head><title>Error: 431</title><link href='https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap' rel='stylesheet'></head><body><center style='margin-top: 15%'><h1 style='color: #401542; font-family: Roboto'>431</h1><br><br><p>Oops! The request url/headers too long to be processed by the server.</p></center></body></html>",
 	"error500page": "<html><head><title>Error: 500</title><link href='https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap' rel='stylesheet'></head><body><center style='margin-top: 15%'><h1 style='color: #401542; font-family: Roboto'>500</h1><br><br><p>Oops! An unknown error happend</p></center></body></html>",
 	"disallowcrawlers": "false",
-	"enablebasicsecuritychecks": "true"
+	"enablebasicsecuritychecks": "true",
+	"ratelimit_maximumrequests": "100",
+	"#Comment": "ratelimit_time is in minutes",
+	"ratelimit_time": "5"
 }
