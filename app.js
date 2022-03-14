@@ -35,15 +35,14 @@ const server = http.createServer((req, res) => {
 	
 	
   function readFile () {
-    try {
       fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
-        sendHeader('Content-type', mime.getType(req.url))
+        if (err) {
+	  returnError(404, null, null)
+	  return;
+	}
+	sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
-    } catch (err) {
-        returnError(404, null, null)
-        return
-    }
   };
 
   rateLimit.inboundRequest(req)
@@ -71,7 +70,25 @@ const server = http.createServer((req, res) => {
   if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) === true) {
         returnError(429, null, null)
 	return;
-   }
+  }
+
+  else if (req.url === '/') {
+    fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
+      if (!err) {
+        fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
+          if (!err) {
+            sendHeader('Content-type', 'text/html')
+            endResponse(data)
+          } else {
+            returnError(404, null, null)
+          }
+        })
+      } else {
+        returnError(500, null, null)
+        error('The index.html file is missing')
+      }
+  })
+  }
 
   else if(req.url.length > 10000){
     returnError(431, null, null)
