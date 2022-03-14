@@ -69,7 +69,7 @@ const server = http.createServer((req, res) => {
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
 
-  if(rateLimit.isRateLimited(req, 20) === true) {
+  if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) === true) {
         returnError(429, null, null)
 		return;
    }
@@ -143,6 +143,6 @@ const server = http.createServer((req, res) => {
 server.listen(config.port, config.host, () => {
   //info() doesn't work here, so use console.log()
   console.log('\x1b[0m\x1b[32m INFO >> Loading server')
-  rateLimit.init(2, true);
+  rateLimit.init(comfig.ratelimit_time, true);
   console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
 })
