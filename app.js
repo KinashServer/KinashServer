@@ -3,7 +3,6 @@ const fs = require('fs')
 const mime = require('mime')
 const rateLimit = require("http-ratelimit")
 const config = require('./configs/config.json')
-const folder = './public_html/'
 const server_version = '1.8.0'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
