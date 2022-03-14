@@ -1,6 +1,7 @@
 const http = require('http')
 const fs = require('fs')
 const mime = require('mime')
+const rateLimit = require("http-ratelimit")
 const config = require('./configs/config.json')
 const folder = './public_html/'
 const server_version = '1.8.0'
@@ -44,6 +45,12 @@ const server = http.createServer((req, res) => {
         return
     }
   };
+
+  rateLimit.inboundRequest(req)
+ 
+  if(rateLimit.isRateLimited(req, 20) === true) {
+        returnError(429, null, null)
+   }
 
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
@@ -132,5 +139,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(config.port, config.host, () => {
   //info() doesn't work here, so use console.log()
+  console.log('\x1b[0m\x1b[32m INFO >> Loading server')
+  rateLimit.init(2, true);
   console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
 })

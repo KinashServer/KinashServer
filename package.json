@@ -6,8 +6,9 @@
       "test":"standard && node app.js",
       "start":"node app.js"
    },
-   "dependencies":{
+   "dependencies": {
       "mime":">3.0.0"
+      "http-ratelimit": ">0.2.3"
    },
    "repository": {
       "type":"git",
