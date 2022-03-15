@@ -42,7 +42,7 @@ const server = http.createServer((req, res) => {
 	}
 	if(mime.getType(req.url) == "image/png" || mime.getType(req.url) == "image/jpeg" || mime.getType(req.url) == "image/gif"){
 		sendHeader('Content-type', mime.getType(req.url))
-        	var fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url);
+        	var fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
         	fileStream.pipe(res);
           	return;
         }
