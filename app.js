@@ -40,7 +40,7 @@ const server = http.createServer((req, res) => {
 	  returnError(404, null, null)
 	  return;
 	}
-	if(mime.getType(req.url).includes("image") == true) || mime.getType(req.url).includes("video") == true) || mime.getType(req.url).includes("font") == true) || mime.getType(req.url).includes("audio") == true) || mime.getType(req.url).includes("application") == true){
+	if(mime.getType(req.url).includes("image") == true || mime.getType(req.url).includes("audio") == true || mime.getType(req.url).includes("video") == true || mime.getType(req.url).includes("font") == true || mime.getType(req.url).includes("application") == true) {
 		sendHeader('Content-type', mime.getType(req.url))
         	let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
         	fileStream.pipe(res);
