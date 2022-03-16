@@ -40,7 +40,37 @@ const server = http.createServer((req, res) => {
 	  returnError(404, null, null)
 	  return;
 	}
-	if(mime.getType(req.url) == "image/png" || mime.getType(req.url) == "image/jpeg" || mime.getType(req.url) == "image/gif"){
+	if(mime.getType(req.url) == "image/png" ||
+	   mime.getType(req.url) == "image/jpeg" ||
+	   mime.getType(req.url) == "image/ico" ||
+	   mime.getType(req.url) == "image/jpg" ||
+	   mime.getType(req.url) == "audio/wave" ||
+	   mime.getType(req.url) == "audio/wav" ||
+	   mime.getType(req.url) == "audio/x-wav" ||
+	   mime.getType(req.url) == "audio/x-pn-wav" ||
+	   mime.getType(req.url) == "audio/webm" ||
+	   mime.getType(req.url) == "video/webm" ||
+	   mime.getType(req.url) == "audio/ogg" ||
+	   mime.getType(req.url) == "video/ogg" ||
+	   mime.getType(req.url) == "audio/aac" ||
+	   mime.getType(req.url) == "video/x-msvideo" ||
+	   mime.getType(req.url) == "image/bmp" ||
+	   mime.getType(req.url) == "audio/mpeg" ||
+	   mime.getType(req.url) == "video/mpeg" ||
+	   mime.getType(req.url) == "image/vnd.microsoft.icon" ||
+	   mime.getType(req.url) == "text/calendar" ||
+	   mime.getType(req.url) == "application/java-archive" ||
+	   mime.getType(req.url) == "font/otf" ||
+	   mime.getType(req.url) == "application/pdf" ||
+	   mime.getType(req.url) == "application/vnd.ms-powerpoint" ||
+	   mime.getType(req.url) == "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+	   mime.getType(req.url) == "image/svg+xml" ||
+	   mime.getType(req.url) == "application/vnd.ms-excel" ||
+	   mime.getType(req.url) == "null" ||
+	   mime.getType(req.url) == "application/zip" ||
+	   mime.getType(req.url) == "video/webm" ||
+	   mime.getType(req.url) == "video/webm" ||
+	   mime.getType(req.url) == "image/jpeg"){
 		sendHeader('Content-type', mime.getType(req.url))
         	var fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
         	fileStream.pipe(res);
