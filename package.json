@@ -1,26 +1,27 @@
 {
-   "name":"kinashserver",
-   "description":"A simple http server with some basic config",
-   "version":"1.7.3",
-   "scripts":{
+   "name": "kinashserver",
+   "description": "A simple http server with some basic config",
+   "version": "1.8.0",
+   "scripts": {
       "test":"standard && node app.js",
       "start":"node app.js"
    },
-   "dependencies":{
-      "mime":">3.0.0"
+   "dependencies": {
+      "mime":" >3.0.0",
+      "http-ratelimit": ">0.2.3"
    },
-   "repository":{
+   "repository": {
       "type":"git",
       "url":"https://github.com/andriy332/KinashServer.git"
    },
-   "keywords":[
+   "keywords": [
       "http",
       "server",
       "http-server"
    ],
-   "author":"andriy332",
-   "bugs":{
-      "url":"https://github.com/andriy332/KinashServer/issues"
+   "author": "andriy332",
+   "bugs": {
+      "url": "https://github.com/andriy332/KinashServer/issues"
    },
-   "homepage":"https://github.com/andriy332/KinashServer/"
+   "homepage": "https://github.com/andriy332/KinashServer/"
 }
