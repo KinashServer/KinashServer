@@ -75,7 +75,7 @@ const server = http.createServer((req, res) => {
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
 
-  if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) === true) {
+  if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) = true) {
         returnError(429, null, null)
 	return;
   }
@@ -132,10 +132,10 @@ const server = http.createServer((req, res) => {
    } else { readFile() }
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
-  } else if (req.url === '/login.html' || req.url === '/login.html/') {
+  } else if (req.url.includes('/login.html') = true) {
     returnError(403, null, null)
   } else if (req.url === '/robots.txt') {
-    if (config.disallowcrawlers === 'true') {
+    if (config.disallowcrawlers = true') {
       sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
