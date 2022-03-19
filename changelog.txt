@@ -1,3 +1,22 @@
+1.8:
+
+Added support for almost all mime types
+Renamed changelogs.txt to changelog.txt
+Renamed kinashserver.bat to kinashserver.cmd
+Fixed kinashserver.bat
+Added authentication_enabled
+Removed useless check & Now KinashServer can handle long urls
+Removed useless return & typo fixes
+Deleted default-config.json
+Tabulation in package.json
+res.setHeader() is now sendHeader()
+Better code
+Returnerror() optimization
+Better error pages system
+Remove accessDenied()
+Remove useless comments
+Fixed a bug that errors shows as warnings in logs
+
 1.6:
 Added status(code)
 Added sendHeader(header, value)
