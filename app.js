@@ -35,12 +35,13 @@ const server = http.createServer((req, res) => {
 	
 	
   function readFile () {
-      fs.readFile('./public_html' + req.url, 'utf8', (err, data) => {
+      let read = './public_html' + req.url.split('?')[0]
+      fs.readFile(read, 'utf8', (err, data) => {
         if (err) {
 	  returnError(404, null, null)
 	  return;
 	}
-	if(mime.getType(req.url).includes("image") == true || mime.getType(req.url).includes("audio") == true || mime.getType(req.url).includes("video") == true || mime.getType(req.url).includes("font") == true || mime.getType(req.url).includes("application") == true) {
+	if(mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true || mime.getType(read).includes("application") == true) {
 		sendHeader('Content-type', mime.getType(req.url))
         	let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
         	fileStream.pipe(res);
@@ -50,6 +51,7 @@ const server = http.createServer((req, res) => {
         endResponse(data)
       })
   };
+
 
   rateLimit.inboundRequest(req)
  
