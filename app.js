@@ -35,32 +35,30 @@ const server = http.createServer((req, res) => {
 	
 	
   function readFile () {
-      let read = './public_html' + req.url.split('?')[0]
-      fs.readFile(read, 'utf8', (err, data) => {
-        if (err) {
-	  returnError(404, null, null)
-	  return;
+    let read = './public_html' + req.url.split('?')[0]
+    fs.readFile(read, 'utf8', (err, data) => {
+    if (err) {
+	     returnError(404, null, null)
+	     return;
 	}
 	if(mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true || mime.getType(read).includes("application") == true) {
-		sendHeader('Content-type', mime.getType(req.url))
+	  sendHeader('Content-type', mime.getType(req.url))
         	let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
         	fileStream.pipe(res);
           	return;
         }
-	sendHeader('Content-type', mime.getType(req.url))
+	  sendHeader('Content-type', mime.getType(req.url))
         endResponse(data)
       })
   };
 
-
   rateLimit.inboundRequest(req)
  
-
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
     error('Error handling this user request!')
     error('Please report this error to our github: https://github.com/andriy332/KinashServer/')
-    error(err)
+    error(err.stack)
     warning('Do not forget to send full server log')
     warning('And do not forget to send this details: ')
     warning('Server version: ' + server_version)  
@@ -75,8 +73,8 @@ const server = http.createServer((req, res) => {
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
 
-  if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) = true) {
-        returnError(429, null, null)
+  if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) == true) {
+    returnError(429, null, null)
 	return;
   }
 
@@ -103,13 +101,13 @@ const server = http.createServer((req, res) => {
   }
 
   else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
-   if(config.enablebasicsecuritychecks = true){
+   if(config.enablebasicsecuritychecks == true){
 	returnError(400, null, null)
    	warning(req.socket.remoteAddress + ' tried to use exploit')
    }
    else { readFile() }
   } else if (req.url === config.authentication_url) {
-   if(config.authentication_enabled = true){
+   if(config.authentication_enabled == true){
     const auth = { login: config.authentication_username, password: config.authentication_password }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
@@ -132,7 +130,7 @@ const server = http.createServer((req, res) => {
    } else { readFile() }
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
-  } else if (req.url.includes('/login.html') = true) {
+  } else if (req.url.includes('/login.html') == true) {
     returnError(403, null, null)
   } else if (req.url === '/robots.txt') {
     if (config.disallowcrawlers = true) {
