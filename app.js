@@ -135,7 +135,7 @@ const server = http.createServer((req, res) => {
   } else if (req.url.includes('/login.html') = true) {
     returnError(403, null, null)
   } else if (req.url === '/robots.txt') {
-    if (config.disallowcrawlers = true') {
+    if (config.disallowcrawlers = true) {
       sendHeader('Content-type', 'text/plain')
       writeContent('User-agent: *')
       endResponse('Disallow: /')
