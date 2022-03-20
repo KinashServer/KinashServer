@@ -3,7 +3,7 @@ const fs = require('fs')
 const mime = require('mime')
 const rateLimit = require("http-ratelimit")
 const config = require('./configs/config.json')
-const server_version = '1.8.0'
+const server_version = '1.8.2'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 
@@ -40,15 +40,15 @@ const server = http.createServer((req, res) => {
     if (err) {
 	     returnError(404, null, null)
 	     return;
-	}
-	if(mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true || mime.getType(read).includes("application") == true) {
-	  sendHeader('Content-type', mime.getType(req.url))
-        	let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
-        	fileStream.pipe(res);
-          	return;
-        }
-	  sendHeader('Content-type', mime.getType(req.url))
-        endResponse(data)
+    }
+    if(mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true || mime.getType(read).includes("application") == true) {
+         sendHeader('Content-type', mime.getType(req.url))
+         let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
+         fileStream.pipe(res);
+         return;
+    }
+    sendHeader('Content-type', mime.getType(read))
+    endResponse(data)
       })
   };
 
@@ -75,7 +75,7 @@ const server = http.createServer((req, res) => {
 
   if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) == true) {
     returnError(429, null, null)
-	return;
+    return;
   }
 
   else if (req.url === '/') {
@@ -98,9 +98,7 @@ const server = http.createServer((req, res) => {
 
   else if(req.url.length > 10000){
     returnError(431, null, null)
-  }
-
-  else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
+  } else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
    if(config.enablebasicsecuritychecks == true){
 	returnError(400, null, null)
    	warning(req.socket.remoteAddress + ' tried to use exploit')
