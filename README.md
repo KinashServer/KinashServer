@@ -12,4 +12,4 @@ npm install kinashserver
 <h2>Bugs</h2>
 <a href="https://github.com/andriy332/KinashServer/issues">Click here to report a bug</a>
 <h3>Change logs</h3
-<p>Open the changelogs.txt file</p>
+<p>Open the changelog.txt file</p>
