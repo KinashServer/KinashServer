@@ -1,0 +1,21 @@
+{
+	"server" : "KinashServer",
+	"AccessControlAllowCredentials" : "",
+	"AccessControlAllowHeaders": "",
+	"AccessControlAllowMethods": "",
+	"AccessControlAllowOrigin": "",
+	"AcceptRanges": "",
+	"Age": "",
+	"Allow": "GET, HEAD",
+	"AlternateProtocol": "",
+	"CacheControl": "",
+	"Connection": "",
+	"ETag": "", 
+	"Keep-Alive": "timeout=3",
+	"Location1": "",
+	"P3P": "",
+	"Pragma": "no-cache",
+	"Refresh": "",
+	"Warning": "",
+	"XContentTypeOptions": ""
+}
