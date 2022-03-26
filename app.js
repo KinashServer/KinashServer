@@ -10,15 +10,15 @@ const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt
 
 const server = http.createServer((req, res) => {
 
-  function status (code) { res.statusCode = code }
-  function sendHeader (header, value) { res.setHeader(header, value) }
-  function writeContent (content) { res.write(content) }
-  function endResponse (content) { res.end(content) }
-  function info (content) { console.log('\x1b[0m\x1b[32m INFO >> ' + content); log.log('INFO >> ' + content) }
-  function warning (content) { console.log('\x1b[0m\x1b[33m WARN >> ' + content); log.log('WARN >> ' + content); errorlog.log('WARN >> ' + content) }
-  function error (content) { console.log('\x1b[0m\x1b[31m ERROR >> ' + content); log.log('ERROR >> ' + content); errorlog.log('ERROR >> ' + content) }
+  function status(code) { res.statusCode = code }
+  function sendHeader(header, value) { res.setHeader(header, value) }
+  function writeContent(content) { res.write(content) }
+  function endResponse(content) { res.end(content) }
+  function info(content) { console.log('\x1b[0m\x1b[32m INFO >> ' + content); log.log('INFO >> ' + content) }
+  function warning(content) { console.log('\x1b[0m\x1b[33m WARN >> ' + content); log.log('WARN >> ' + content); errorlog.log('WARN >> ' + content) }
+  function error(content) { console.log('\x1b[0m\x1b[31m ERROR >> ' + content); log.log('ERROR >> ' + content); errorlog.log('ERROR >> ' + content) }
 
-  function returnError (err, message, statusText) {
+  function returnError(err, message, statusText) {
     status(err)
     sendHeader('Content-Type', 'text/html')
     if (err === 400 && message === null) { endResponse(config.error400page); return }
@@ -32,28 +32,28 @@ const server = http.createServer((req, res) => {
     if (err === 500 && message === null) { endResponse(config.error500page); }
     else { endResponse(`<html lang="en"><head><title>${err} ${statusText}</title></head><body><center><h1>${err} ${statusText}</h1><p>${message}</p></center></body></html>`) }
   }
-	
-	
-  function readFile () {
+
+
+  function readFile() {
     let read = './public_html' + req.url.split('?')[0]
     fs.readFile(read, 'utf8', (err, data) => {
-    if (err) {
-	     returnError(404, null, null)
-	     return;
-    }
-    if(mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true || mime.getType(read).includes("application") == true) {
-         sendHeader('Content-type', mime.getType(req.url))
-         let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
-         fileStream.pipe(res);
-         return;
-    }
-    sendHeader('Content-type', mime.getType(read))
-    endResponse(data)
-      })
+      if (err) {
+        returnError(404, null, null)
+        return;
+      }
+      if (mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true || mime.getType(read).includes("application") == true) {
+        sendHeader('Content-type', mime.getType(req.url))
+        let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
+        fileStream.pipe(res);
+        return;
+      }
+      sendHeader('Content-type', mime.getType(read))
+      endResponse(data)
+    })
   };
 
   rateLimit.inboundRequest(req)
- 
+
   process.on('uncaughtException', function (err) {
     returnError(500, null, null)
     error('Error handling this user request!')
@@ -61,7 +61,7 @@ const server = http.createServer((req, res) => {
     error(err.stack)
     warning('Do not forget to send full server log')
     warning('And do not forget to send this details: ')
-    warning('Server version: ' + server_version)  
+    warning('Server version: ' + server_version)
     warning('Request url: ' + req.url)
     warning('Request method: ' + req.method)
     warning('authentication_realm: ' + config.authentication_realm)
@@ -73,7 +73,7 @@ const server = http.createServer((req, res) => {
 
   info(req.socket.remoteAddress + ' ' + req.method + ' ' + req.url + ' ' + Date())
 
-  if(rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) == true) {
+  if (rateLimit.isRateLimited(req, config.ratelimit_maximumrequests) == true) {
     returnError(429, null, null)
     return;
   }
@@ -93,39 +93,39 @@ const server = http.createServer((req, res) => {
         returnError(500, null, null)
         error('The index.html file is missing')
       }
-  })
+    })
   }
 
-  else if(req.url.length > 10000){
+  else if (req.url.length > 10000) {
     returnError(431, null, null)
-  } else if(req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")){
-   if(config.enablebasicsecuritychecks == true){
-	returnError(400, null, null)
-   	warning(req.socket.remoteAddress + ' tried to use exploit')
-   }
-   else { readFile() }
-  } else if (req.url === config.authentication_url) {
-   if(config.authentication_enabled == true){
-    const auth = { login: config.authentication_username, password: config.authentication_password }
-    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
-    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
-    if (login && password && login === auth.login && password === auth.password) {
-      fs.readFile(config.authentication_file, 'utf8', function (err, data) {
-        if (err) {
-          returnError(500, null, null)
-          warning('User ' + req.socket.remoteAddress + ' passed the authentication')
-          error('The authentication file is missing')
-        }
-        sendHeader('Content-Type', 'text/html')
-        endResponse(data)
-        warning('User ' + req.socket.remoteAddress + ' passed the authentication')
-      })
-      return
+  } else if (req.url.includes("%") || req.url.includes("<") || req.url.includes(">") || req.url.includes("..")) {
+    if (config.enablebasicsecuritychecks == true) {
+      returnError(400, null, null)
+      warning(req.socket.remoteAddress + ' tried to use exploit')
     }
-    sendHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
-    returnError(401, null, null)
-    warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
-   } else { readFile() }
+    else { readFile() }
+  } else if (req.url === config.authentication_url) {
+    if (config.authentication_enabled == true) {
+      const auth = { login: config.authentication_username, password: config.authentication_password }
+      const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+      const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+      if (login && password && login === auth.login && password === auth.password) {
+        fs.readFile(config.authentication_file, 'utf8', function (err, data) {
+          if (err) {
+            returnError(500, null, null)
+            warning('User ' + req.socket.remoteAddress + ' passed the authentication')
+            error('The authentication file is missing')
+          }
+          sendHeader('Content-Type', 'text/html')
+          endResponse(data)
+          warning('User ' + req.socket.remoteAddress + ' passed the authentication')
+        })
+        return
+      }
+      sendHeader('WWW-Authenticate', 'Basic realm="' + config.authentication_realm + '"')
+      returnError(401, null, null)
+      warning('User ' + req.socket.remoteAddress + ' is tried to login (or failed the authentication)')
+    } else { readFile() }
   } else if (req.url.length > config.max_url_length) {
     returnError(414, null, null)
   } else if (req.url.includes('/login.html') == true) {
@@ -145,10 +145,10 @@ server.listen(config.port, config.host, () => {
   //info() doesn't work here, so use console.log()
   console.log('\x1b[0m\x1b[32m INFO >> Loading server')
   rateLimit.init(config.ratelimit_time, true);
-  if(config.port === "80"){
-  	console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + '/')
+  if (config.port === "80") {
+    console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + '/')
   }
-  else{
-        console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
+  else {
+    console.log('\x1b[0m\x1b[32m INFO >> Server started at http://' + config.host + ':' + config.port + '/')
   }
 })
