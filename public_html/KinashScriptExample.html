@@ -1,3 +1,5 @@
+<!-- Used for UTF-8 (you can also use <meta> tag)-->
+Encoding.setUTF(true)
 <p>
   KinashScript is something like PHP but for KinashServer
   <br>
@@ -8,7 +10,6 @@ KinashServer.getURL()
 IP:
 KinashServer.getIP()
 CURRENT DATE:
-Encoding.setUTF(true)
 KinashServer.getDate()
 REQUEST METHOD:
 KinashServer.getRequestMethod()
@@ -17,13 +18,17 @@ KinashServer.getCurrentMime()
 GET KINASHSERVER VERSION:
 KinashServer.getVersion()
   </pre>
-It also can:
-  * return your custom errors:
-  * Not working example:
-  KinashServer[replace with dot]returnError(403)
-  * Working example:
-KinashServer[replace with dot]returnError(403)
-  * To test it you will need to replace [replace with dot] to .
-  * It can return errors that are only listed in config
-  * Or else it will be ignored
+It also can:  <br>
+  * Return your custom errors: <br>
+<div style="margin-left: 20px">
+  * Not working example: <br>
+  <div style="margin-left: 20px">KinashServer[replace with dot]returnError(403)</div>
+  * Working example: <br>
+KinashServer[replace with dot]returnError(403)<br>
+  * To test it you will need to replace [replace with dot] to . <br>
+  * It can return errors that are only listed in config <br>
+  * Or else it will be ignored <br>
+  * Currently KinashScript doesn't work in error pages <br>
+  * The maximum KinashScripts per page can be configured in config <br>
+</div>
 </p>
