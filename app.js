@@ -20,8 +20,9 @@ const server = http.createServer((req, res) => {
   function error(content) { console.log('\x1b[0m\x1b[31m ERROR >> ' + content); log.log('ERROR >> ' + content); errorlog.log('ERROR >> ' + content) }
 
   function checkHeader(header, value){
-    if(!value){ return; }
-    sendHeader(header, value)
+    if(!value) { return false; }
+    sendHeader(header, value); 
+    return true;
   }
 
   checkHeader('Server', headersconfig.server)
@@ -31,6 +32,25 @@ const server = http.createServer((req, res) => {
   checkHeader('Access-Control-Allow-Origin', headersconfig.AccessControlAllowOrigin)
   checkHeader('Accept-Ranges', headersconfig.AcceptRanges)
   checkHeader('Age', headersconfig.Age)
+  // start
+  checkHeader('Via', headersconfig.Via)
+  checkHeader('Cache-Control', headersconfig.CacheControl)
+  if (headersconfig.Location !=== "") {
+    status(302)
+    endResponse(`
+    <html>
+      <head>
+        <title>Document moved</title>
+      </head>
+      <body>
+        <h3>This document has been moved <a href="${headersconfig.Location}">here</a></h3>
+      </body>
+    </html>
+    
+    `)
+    sendHeader("Location", headersconfig.Location)
+  }
+  // end
   checkHeader('Allow', headersconfig.allow)
   checkHeader('Alternate-Protocol', headersconfig.AlternateProtocol)
   checkHeader('Cache-Control', headersconfig.CacheControl)
