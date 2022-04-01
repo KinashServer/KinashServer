@@ -41,14 +41,62 @@ const server = http.createServer((req, res) => {
         returnError(404, null, null)
         return;
       }
-      if (mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true || mime.getType(read).includes("application") == true) {
+      if (mime.getType(read).includes("image") == true || mime.getType(read).includes("audio") == true || mime.getType(read).includes("video") == true || mime.getType(read).includes("font") == true) {
         sendHeader('Content-type', mime.getType(req.url))
         let fileStream = fs.createReadStream(__dirname + '/./public_html' + req.url); //NOSONAR
         fileStream.pipe(res);
         return;
       }
+      if (data.includes("KinashServer.returnError(400)") == true) {
+        returnError(400, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(401)") == true) {
+        returnError(401, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(403)") == true) {
+        returnError(403, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(404)") == true) {
+        returnError(404, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(405)") == true) {
+        returnError(405, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(414)") == true) {
+        returnError(414, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(429)") == true) {
+        returnError(429, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(431)") == true) {
+        returnError(431, null, null)
+        return;
+      }
+      if (data.includes("KinashServer.returnError(500)") == true) {
+        returnError(500, null, null)
+        return;
+      }
       sendHeader('Content-type', mime.getType(read))
-      endResponse(data)
+      let replaceddata = data.replace('KinashServer.getURL()', req.url)
+      for (let i = 0; i < 20; i++) {
+        replaceddata = replaceddata.replace('Encoding.setUTF(true)', '<meta charset="utf-8">')
+        replaceddata = replaceddata.replace('KinashServer.getURL()', req.url)
+        replaceddata = replaceddata.replace('KinashServer.getIP()', req.socket.remoteAddress)
+        replaceddata = replaceddata.replace('KinashServer.getDate()', Date())
+        replaceddata = replaceddata.replace('KinashServer.getRequestMethod()', req.method)
+        replaceddata = replaceddata.replace('KinashServer.getCurrentMime()', mime.getType(req.url))
+        replaceddata = replaceddata.replace('KinashServer.getVersion()', server_version)
+        replaceddata = replaceddata.replace('KinashServer.refresh()', '<meta type="refresh" content="0"><script>location.reload()</script>')
+
+      }
+      endResponse(replaceddata)
     })
   };
 
