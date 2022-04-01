@@ -21,5 +21,6 @@
 	"enablebasicsecuritychecks": "true",
 	"ratelimit_maximumrequests": 100,
 	"#Comment": "ratelimit_time is in minutes",
-	"ratelimit_time": 5
+	"ratelimit_time": 5,
+	"maxkinashscripts": 25
 }
