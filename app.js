@@ -85,7 +85,7 @@ const server = http.createServer((req, res) => {
       }
       sendHeader('Content-type', mime.getType(read))
       let replaceddata = data.replace('KinashServer.getURL()', req.url)
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < config.maxkinashscripts; i++) {
         replaceddata = replaceddata.replace('Encoding.setUTF(true)', '<meta charset="utf-8">')
         replaceddata = replaceddata.replace('KinashServer.getURL()', req.url)
         replaceddata = replaceddata.replace('KinashServer.getIP()', req.socket.remoteAddress)
