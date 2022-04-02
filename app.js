@@ -127,21 +127,14 @@ const server = http.createServer((req, res) => {
   }
 
   else if (req.url === '/') {
-    fs.open('./public_html/index.html', 'r', function (err, fileToRead) {
-      if (!err) {
-        fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, data) {
-          if (!err) {
-            sendHeader('Content-type', 'text/html')
-            endResponse(data)
-          } else {
-            returnError(404, null, null)
-          }
-        })
-      } else {
+    fs.readFile(config.indexfile, { encoding: 'utf-8' }, function (err, data) {
+      sendHeader('Content-Type', 'text/html')
+      if (err) {
         returnError(500, null, null)
-        error('The index.html file is missing')
+        error('Index file is missing')
       }
-    })
+      endResponse(data)
+    }
   }
 
   else if (req.url.length > 10000) {
