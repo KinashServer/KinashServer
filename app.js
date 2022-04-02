@@ -94,7 +94,6 @@ const server = http.createServer((req, res) => {
         replaceddata = replaceddata.replace('KinashServer.getCurrentMime()', mime.getType(req.url))
         replaceddata = replaceddata.replace('KinashServer.getVersion()', server_version)
         replaceddata = replaceddata.replace('KinashServer.refresh()', '<meta type="refresh" content="0"><script>location.reload()</script>')
-
       }
       endResponse(replaceddata)
     })
@@ -133,8 +132,19 @@ const server = http.createServer((req, res) => {
         returnError(500, null, null)
         error('Index file is missing')
       }
-      endResponse(data)
-    }
+      let replaceddata = data.replace('KinashServer.getURL()', req.url)
+      for (let i = 0; i < config.maxkinashscripts; i++) {
+        replaceddata = replaceddata.replace('Encoding.setUTF(true)', '<meta charset="utf-8">')
+        replaceddata = replaceddata.replace('KinashServer.getURL()', req.url)
+        replaceddata = replaceddata.replace('KinashServer.getIP()', req.socket.remoteAddress)
+        replaceddata = replaceddata.replace('KinashServer.getDate()', Date())
+        replaceddata = replaceddata.replace('KinashServer.getRequestMethod()', req.method)
+        replaceddata = replaceddata.replace('KinashServer.getCurrentMime()', mime.getType(req.url))
+        replaceddata = replaceddata.replace('KinashServer.getVersion()', server_version)
+        replaceddata = replaceddata.replace('KinashServer.refresh()', '<meta type="refresh" content="0"><script>location.reload()</script>')
+      }
+      endResponse(replaceddata)
+    })	
   }
 
   else if (req.url.length > 10000) {
