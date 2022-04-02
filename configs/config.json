@@ -22,5 +22,7 @@
 	"ratelimit_maximumrequests": 100,
 	"#Comment": "ratelimit_time is in minutes",
 	"ratelimit_time": 5,
-	"maxkinashscripts": 25
+	"maxkinashscripts": 25,
+	"indexfile": "./public_html/index.html",
+	"#Comment": "Index file must start with ./public_html/"
 }
