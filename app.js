@@ -3,7 +3,7 @@ const fs = require('fs')
 const mime = require('mime')
 const rateLimit = require("http-ratelimit")
 const config = require('./configs/config.json')
-const server_version = '1.8.3'
+const server_version = '1.8.3.5'
 const log = new console.Console(fs.createWriteStream('./logs/requests-log.txt'))
 const errorlog = new console.Console(fs.createWriteStream('./logs/errors-log.txt'))
 
@@ -17,19 +17,32 @@ const server = http.createServer((req, res) => {
   function info(content) { console.log('\x1b[0m\x1b[32m INFO >> ' + content); log.log('INFO >> ' + content) }
   function warning(content) { console.log('\x1b[0m\x1b[33m WARN >> ' + content); log.log('WARN >> ' + content); errorlog.log('WARN >> ' + content) }
   function error(content) { console.log('\x1b[0m\x1b[31m ERROR >> ' + content); log.log('ERROR >> ' + content); errorlog.log('ERROR >> ' + content) }
+  
+  function convert(replaceddata){
+        replaceddata = replaceddata.replace('Encoding.setUTF(true)', '<meta charset="utf-8">')
+        replaceddata = replaceddata.replace('KinashServer.getURL()', req.url)
+        replaceddata = replaceddata.replace('KinashServer.getIP()', req.socket.remoteAddress)
+        replaceddata = replaceddata.replace('KinashServer.getDate()', Date())
+        replaceddata = replaceddata.replace('KinashServer.getRequestMethod()', req.method)
+        replaceddata = replaceddata.replace('KinashServer.getCurrentMime()', mime.getType(req.url))
+        replaceddata = replaceddata.replace('KinashServer.getVersion()', server_version)
+        replaceddata = replaceddata.replace('KinashServer.refresh()', '<meta type="refresh" content="0"><script>location.reload()</script>')
+        return replaceddata
+  }
+  
 
   function returnError(err, message, statusText) {
     status(err)
     sendHeader('Content-Type', 'text/html')
-    if (err === 400 && message === null) { endResponse(config.error400page); return }
-    if (err === 401 && message === null) { endResponse(config.error401page); return }
-    if (err === 403 && message === null) { endResponse(config.error403page); return }
-    if (err === 404 && message === null) { endResponse(config.error404page); return }
-    if (err === 405 && message === null) { endResponse(config.error405page); return }
-    if (err === 414 && message === null) { endResponse(config.error414page); return }
-    if (err === 429 && message === null) { endResponse(config.error429page); return }
-    if (err === 431 && message === null) { endResponse(config.error431page); return }
-    if (err === 500 && message === null) { endResponse(config.error500page); }
+    if (err === 400 && message === null) { endResponse(convert(config.error400page)); return }
+    if (err === 401 && message === null) { endResponse(convert(config.error401page)); return }
+    if (err === 403 && message === null) { endResponse(convert(config.error403page)); return }
+    if (err === 404 && message === null) { endResponse(convert(config.error404page)); return }
+    if (err === 405 && message === null) { endResponse(convert(config.error405page)); return }
+    if (err === 414 && message === null) { endResponse(convert(config.error414page)); return }
+    if (err === 429 && message === null) { endResponse(convert(config.error429page)); return }
+    if (err === 431 && message === null) { endResponse(convert(config.error431page)); return }
+    if (err === 500 && message === null) { endResponse(convert(config.error500page)); }
     else { endResponse(`<html lang="en"><head><title>${err} ${statusText}</title></head><body><center><h1>${err} ${statusText}</h1><p>${message}</p></center></body></html>`) }
   }
 
@@ -47,7 +60,7 @@ const server = http.createServer((req, res) => {
         fileStream.pipe(res);
         return;
       }
-      if (data.includes("KinashServer.returnError(400)") == true) {
+      if (data.includes("KinashServer.returnError(400)") == true) { //TODO: Change to switch
         returnError(400, null, null)
         return;
       }
