@@ -1,3 +1,14 @@
+<h1>Repo is moving here: https://github.com/andriycraft/KinashServer</h1>
+
+
+
+
+
+
+
+
+
+
 <h1>KinashServer</h1>
 KinashServer is simple node.JS HTTP server with some basic config
 <h2>Launch</h2>
