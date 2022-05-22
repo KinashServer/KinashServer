@@ -104,7 +104,7 @@ const server = http.createServer((req, res) => {
         replaceddata = replaceddata.replace('KinashServer.getIP()', req.socket.remoteAddress)
         replaceddata = replaceddata.replace('KinashServer.getDate()', Date())
         replaceddata = replaceddata.replace('KinashServer.getRequestMethod()', req.method)
-        replaceddata = replaceddata.replace('KinashServer.getCurrentMime()', mime.getType(req.url))
+        replaceddata = replaceddata.replace('KinashServer.getCurrentMime()', mime.getType(read))
         replaceddata = replaceddata.replace('KinashServer.getVersion()', server_version)
         replaceddata = replaceddata.replace('KinashServer.refresh()', '<meta type="refresh" content="0"><script>location.reload()</script>')
       }
