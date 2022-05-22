@@ -1,16 +1,6 @@
-<h1>Repo is moving here: https://github.com/andriycraft/KinashServer</h1>
-
-
-
-
-
-
-
-
-
 
 <h1>KinashServer</h1>
-KinashServer is simple node.JS HTTP server with some basic config
+KinashServer is simple node.JS HTTP server that can serve static page with some basic config
 <h2>Launch</h2>
 <p>To launch, use these commands: 
 <br>
